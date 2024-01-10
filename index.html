@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
+
 <body>
+    <header>
+        <a class="header-item" href="https://qrlink-maker.darylandres.com/">QRLink-Maker</a>
+        <a class="header-item" href="https://bndesc-finder.darylandres.com/">BNDesc-Finder</a>
+    </header>
+
     <div class="container">
-        <header>
-            <a class="bndesc-finder" href="https://bndesc-finder.darylandres.com/">BN Descriptors</a>
-        </header>
+        <small class="tip">Note: Long URLs might cause scanning issues. Use the URL shortener before generating the QR
+            code.</small>
+
         <div class="inner-container">
             <div class="inner-container-right">
                 <div class="qr-generator-div">
@@ -34,28 +43,34 @@
                     </div>
                 </div>
             </div>
-    
+
             <div class="inner-container-right">
                 <div class="qr-container">
                     <p class="noQRtoShow hidden">No QR Code to show.</p>
                     <div id="qr-code" class="qr-code"></div>
                 </div>
-                <a id="download-link" download="qrcode.jpg" style="display: none;">Download QR Code</a>
+                <a id="download-link" download="qrcode.jpg" style="display: none;">
+                    Download QR Code
+                </a>
             </div>
         </div>
-
-        <small class="tip">Tip: Long URLs might cause scanning issues. Use the URL shortener before generating the QR code.</small>
-
-        <div class="footer">
-            <p class="footer-content">
-              &copy; 2023 QRLink <br>
-            </p>
-            <p class="version">Version: <strong>1.0.0</strong></p>
-        </div>
     </div>
+
+    <footer class="footer">
+        <nav>
+            <a class="nav-item" href="https://bndesc-finder.darylandres.com/">BNDesc-Finder</a>
+            <a class="nav-item" href="https://qrlink-maker.darylandres.com/">QRLink-Maker</a>
+        </nav>
+
+        <div class="footer-items">
+            <span><strong>Copyright &copy; 2024 QRLink-Maker.</strong> All rights reserved</span>
+            <span>Version: <strong>1.0.0</strong></span>
+        </div>
+    </footer>
 
 
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <script src="scripts.js"></script>
 </body>
+
 </html>

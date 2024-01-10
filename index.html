@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a class="bndesc-finder" href="https://bndesc-finder.darylandres.com/">BN Descriptors</a>
+        </header>
+        <div class="inner-container">
+            <div class="inner-container-right">
+                <div class="qr-generator-div">
+                    <h1>QR Code Generator</h1>
+                    <div class="input-section">
+                        <input type="text" id="qr-text" placeholder="Enter text or URL">
+                        <button onclick="generateQR()">Generate QR Code</button>
+                    </div>
+                </div>
+
+                <div class="url-shortener-div">
+                    <h1>URL Shortener</h1>
+                    <div class="input-section">
+                        <input type="text" id="inputURL" placeholder="Enter URL">
+                        <button onclick="shortenURL()">Shorten URL</button>
+                    </div>
+                    <p id="shortenedURL"></p>
+                    <div class="url-actions hidden">
+                        <button class="copyUrl" onclick="copyToClipboard()">Copy URL</button>
+                        <button class="tinyUrlQr" onclick="getTinurlQrCode()">Generate QR Code</button>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="inner-container-right">
+                <div class="qr-container">
+                    <p class="noQRtoShow hidden">No QR Code to show.</p>
+                    <div id="qr-code" class="qr-code"></div>
+                </div>
+                <a id="download-link" download="qrcode.jpg" style="display: none;">Download QR Code</a>
+            </div>
+        </div>
+
+        <small class="tip">Tip: Long URLs might cause scanning issues. Use the URL shortener before generating the QR code.</small>
+
+        <div class="footer">
+            <p class="footer-content">
+              &copy; 2023 QRLink <br>
+            </p>
+            <p class="version">Version: <strong>1.0.0</strong></p>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>

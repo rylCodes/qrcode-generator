@@ -59,6 +59,18 @@ function generateQR(value) {
         downloadLink.style.display = 'block';
 
         document.getElementById("qr-text").value = "";
+
+        Toastify({
+            text: `QR Code image successfully generated`,
+            duration: 5000, // 5 seconds
+            newWindow: true,
+            close: true,
+            gravity: "top", // 'top' or 'bottom'
+            position: 'center', // 'left', 'right', 'center'
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)", // Use your preferred color
+            },
+        }).showToast();
     };
 }
 
@@ -90,14 +102,38 @@ async function shortenURL() {
         document.getElementById('shortenedURL').innerHTML = `<a id="newTinyUrl" href="${data.data.tiny_url}">${data.data.tiny_url}</a>`;
         urlActions.classList.remove('hidden');
         document.getElementById('inputURL').value = "";
+
+        Toastify({
+            text: `URL successfully shortened: ${data.data.tiny_url}`,
+            duration: 5000, // 5 seconds
+            newWindow: true,
+            close: true,
+            gravity: "top", // 'top' or 'bottom'
+            position: 'center', // 'left', 'right', 'center'
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)", // Use your preferred color
+            },
+        }).showToast();
     } else {
-        document.getElementById('shortenedURL').innerHTML = `Error: ${data.errors}`;
+        document.getElementById('shortenedURL').innerHTML = `<p class="text-red">Error: ${data.errors}</p>`;
         if (!urlActions.classList.contains('hidden')) {
             urlActions.classList.add('hidden');
         };
+        // alert(data.errors? `Error: ${data.errors}` : "Error: Invalid URL");
+        Toastify({
+            text: `Error: ${data.errors}`,
+            duration: 5000, // 5 seconds
+            newWindow: true,
+            close: true,
+            gravity: "top", // 'top' or 'bottom'
+            position: 'center', // 'left', 'right', 'center'
+            style: {
+                background: "linear-gradient(to right, #e53935, #b71c1c)", // Use your preferred color
+            },
+        }).showToast();
     };
     } catch (error) {
-    document.getElementById('shortenedURL').innerHTML = `Error: ${error.message}`;
+        document.getElementById('shortenedURL').innerHTML = `Error: ${error.message}`;
     };
 }
 
@@ -121,7 +157,17 @@ function copyToClipboard() {
     document.body.removeChild(textArea);
 
     // Alert the user or provide feedback (optional)
-    alert("Copied to clipboard: " + copyText.textContent);
+    Toastify({
+        text: `Copied to clipboard: ${copyText.textContent}`,
+        duration: 5000, // 5 seconds
+        newWindow: true,
+        close: true,
+        gravity: "top", // 'top' or 'bottom'
+        position: 'center', // 'left', 'right', 'center'
+        style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)", // Use your preferred color
+        },
+    }).showToast();
 }
 
 function getTinurlQrCode() {

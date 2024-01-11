@@ -1,17 +1,13 @@
-const noQRtoShow = document.querySelector('.noQRtoShow');
-let isQRGenerated = false;
-
-if (isQRGenerated) {
-    if (!noQRtoShow.classList.contains('hidden')) {
-        noQRtoShow.classList.add('hidden');
-    };
-} else {
-    noQRtoShow.classList.remove('hidden');
-};
+const qrText = document.getElementById("qr-text");
+const longURL = document.getElementById('inputURL');
+const noQRtoShow = document.querySelector('.temp-div');
+const urlActions = document.querySelector('.url-actions');
+const closeIcon = document.querySelector('span.close-icon');
+const clearTextIcon = document.querySelector('span.close-icon.for-text');
+const clearUrlIcon = document.querySelector('span.close-icon.for-url');
 
 function generateQR(value) {
-    const qrText = document.getElementById("qr-text").value;
-    if (!qrText && !value) {
+    if (!value) {
         alert("Please enter text or URL to generate QR code.");
         return;
     };
@@ -20,7 +16,7 @@ function generateQR(value) {
     qrCodeDiv.innerHTML = "";
 
     const qr = new QRCode(qrCodeDiv, {
-        text: qrText? qrText : value,
+        text: value,
         width: 300,
         height: 300
     });
@@ -31,11 +27,9 @@ function generateQR(value) {
         alert("Failed to generate QR code.");
         return;
     } else {
-        if (!noQRtoShow.classList.contains('hidden')) {
-            noQRtoShow.classList.add('hidden');
-        };
-    };
-
+        noQRtoShow.classList.add('hidden');
+    }
+    
     // Convert QR code to image and create download link
     const qrCodeImage = qrCodeDiv.querySelector('img');
     const downloadLink = document.getElementById('download-link');
@@ -58,11 +52,14 @@ function generateQR(value) {
         downloadLink.href = canvas.toDataURL('image/jpeg');
         downloadLink.style.display = 'block';
 
-        document.getElementById("qr-text").value = "";
+        const qrTextContainer = document.querySelector(".qr-text");
+        if (qrTextContainer) {
+            qrTextContainer.textContent = value;
+        }
 
         Toastify({
             text: `QR Code image successfully generated`,
-            duration: 5000, // 5 seconds
+            duration: 5000,
             newWindow: true,
             close: true,
             gravity: "top", // 'top' or 'bottom'
@@ -75,10 +72,7 @@ function generateQR(value) {
 }
 
 async function shortenURL() {
-    const longURL = document.getElementById('inputURL').value;
-    const urlActions = document.querySelector('.url-actions');
-
-    if (!longURL) {
+    if (!longURL.value) {
         alert("Please enter URL");
         return;
     };
@@ -94,18 +88,17 @@ async function shortenURL() {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ url: longURL })
+        body: JSON.stringify({ url: longURL.value })
     });
 
     const data = await response.json();
     if (response.ok) {
         document.getElementById('shortenedURL').innerHTML = `<a id="newTinyUrl" href="${data.data.tiny_url}">${data.data.tiny_url}</a>`;
         urlActions.classList.remove('hidden');
-        document.getElementById('inputURL').value = "";
 
         Toastify({
             text: `URL successfully shortened: ${data.data.tiny_url}`,
-            duration: 5000, // 5 seconds
+            duration: 5000,
             newWindow: true,
             close: true,
             gravity: "top", // 'top' or 'bottom'
@@ -119,10 +112,10 @@ async function shortenURL() {
         if (!urlActions.classList.contains('hidden')) {
             urlActions.classList.add('hidden');
         };
-        // alert(data.errors? `Error: ${data.errors}` : "Error: Invalid URL");
+
         Toastify({
             text: `Error: ${data.errors}`,
-            duration: 5000, // 5 seconds
+            duration: 5000,
             newWindow: true,
             close: true,
             gravity: "top", // 'top' or 'bottom'
@@ -159,7 +152,7 @@ function copyToClipboard() {
     // Alert the user or provide feedback (optional)
     Toastify({
         text: `Copied to clipboard: ${copyText.textContent}`,
-        duration: 5000, // 5 seconds
+        duration: 5000,
         newWindow: true,
         close: true,
         gravity: "top", // 'top' or 'bottom'
@@ -170,10 +163,14 @@ function copyToClipboard() {
     }).showToast();
 }
 
-function getTinurlQrCode() {
+function displayTextQrCode() {
+    generateQR(qrText.value);
+}
+
+function displayTinyurlQrCode() {
     let hrefValue;
     const newTinyUrl = document.getElementById('newTinyUrl');
-    console.log(typeof newTinyUrl)
+
     if (newTinyUrl) {
         hrefValue = newTinyUrl.getAttribute('href');
         console.log(hrefValue)
@@ -182,4 +179,35 @@ function getTinurlQrCode() {
         };
     };
 }
-  
+
+function removeInputValue(element, icon) {
+    element.value = "";
+    icon.style.display = "none";
+}
+
+function handleClearTextInput() {
+    removeInputValue(qrText, clearTextIcon);
+}
+
+function handleClearUrlInput() {
+    removeInputValue(longURL, clearUrlIcon);
+}
+
+function showClearTextIcon() {
+    if (qrText.value.trim() !== "") {
+        clearTextIcon.style.display = 'block';
+    } else {
+        clearTextIcon.style.display = 'none';
+    };
+}
+
+function showClearUrlIcon() {
+    if (longURL.value.trim() !== "") {
+        clearUrlIcon.style.display = 'block';
+    } else {
+        clearUrlIcon.style.display = 'none';
+    };
+}
+
+qrText.addEventListener("input", showClearTextIcon);
+longURL.addEventListener("input", showClearUrlIcon);

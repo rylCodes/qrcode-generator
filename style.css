@@ -15,9 +15,10 @@ body {
 header {
   display: flex;
   justify-content: flex-end;
+  column-gap: 20px;
   background-color: #333;
   color: #fff;
-  padding: 10px 10px;
+  padding: 25px;
 }
 
 h1 {
@@ -46,7 +47,6 @@ button:hover {
 }
 
 .header-item {
-  padding: 15px;
   font-size: 14px;
   color: #f9f9f9;
   cursor: pointer;
@@ -69,11 +69,28 @@ button:hover {
 
 .inner-container-left,
 .inner-container-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   width: 50%;
   margin: 10px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.inner-container-right {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.temp-div {
+  margin: auto;
 }
 
 .url-actions {
@@ -100,11 +117,19 @@ button:hover {
   margin-bottom: 30px;
 }
 
-input[type="text"] {
+.input-text-bar {
+  display: flex;
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
   margin-bottom: 10px;
+  min-width: auto;
+}
+
+input[type="text"] {
+  width: 100%;
+  outline: none;
+  border: none;
 }
 
 .qr-container {
@@ -121,7 +146,7 @@ input[type="text"] {
 #download-link {
   display: block;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 30px;
   text-decoration: none;
   color: #3498db;
   border: 1px solid #3498db;
@@ -170,12 +195,22 @@ nav {
   margin-bottom: 10px;
 }
 
-.hidden {
+.text-red {
+  color: red;
+}
+
+span.close-icon {
+  font-size: 16px;
+  cursor: pointer;
   display: none;
 }
 
-.text-red {
-  color: red;
+.qr-text {
+  margin: 0 auto;
+}
+
+.hidden {
+  display: none;
 }
 
 /* Responsive styles */
@@ -203,6 +238,10 @@ nav {
     font-size: 14px
   }
 
+  header {
+    column-gap: 10px;
+  }
+
   .container {
     margin: 10px 20px;
   }
@@ -211,10 +250,8 @@ nav {
     font-size: 20px;
   }
 
-  .about {
-    padding: 5px;
-    margin: 5px;
-    font-size: 12px;
+  .header-item {
+    font-size: 13px;
   }
 
   .inner-container {
@@ -224,5 +261,10 @@ nav {
   .inner-container-left,
   .inner-container-right {
     width: auto;
+  }
+
+  nav,
+  footer {
+    font-size: 11px;
   }
 }

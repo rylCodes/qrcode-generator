@@ -3,20 +3,21 @@ const qrText = document.getElementById("qr-text");
 const longURL = document.getElementById('input-url');
 const aliasText = document.getElementById('input-alias');
 
+const qrTextContainer = document.querySelector(".qr-text");
 const noQRtoShow = document.querySelector('.temp-div');
 const urlActions = document.querySelector('.url-actions');
 const closeIcon = document.querySelector('span.close-icon');
 const clearTextIcon = document.querySelector('span.close-icon.for-text');
 const clearUrlIcon = document.querySelector('span.close-icon.for-url');
 const clearAliasIcon = document.querySelector('span.close-icon.for-alias');
+const copyIcon = document.querySelector('span.copy-icon');
 const cssLoader = document.querySelector(".css-loader");
 
-let isLoading = false;
-
 async function generateQR(value) {
-    isLoading = true;
+    cssLoader.style.display = "flex";
     if (!value) {
         alert("Please enter text or URL to generate QR code.");
+        cssLoader.style.display = "none";
         return;
     };
 
@@ -32,12 +33,12 @@ async function generateQR(value) {
     // Handle QR code generation error
     if (!qr) {
         noQRtoShow.classList.remove('hidden');
+        cssLoader.style.display = "none";
         alert("Failed to generate QR code.");
-        isLoading = false;
         return;
     } else {
         noQRtoShow.classList.add('hidden');
-        isLoading = false;
+        cssLoader.style.display = "none";
     };
     
     // Convert QR code to image and create download link
@@ -60,9 +61,16 @@ async function generateQR(value) {
         
         // Convert the canvas to a data URL in JPEG format and set as href for download link
         downloadLink.href = canvas.toDataURL('image/jpeg');
+
+        // Download as PNG
+        if (value.includes('http')) {
+            const splitValue = value.split('/');
+            downloadLink.setAttribute('download', `${splitValue.pop()}.png`);
+        } else {
+            downloadLink.setAttribute('download', `${value}.png`);
+        };
         downloadLink.style.display = 'block';
 
-        const qrTextContainer = document.querySelector(".qr-text");
         if (qrTextContainer) {
             qrTextContainer.textContent = value;
         }
@@ -82,7 +90,6 @@ async function generateQR(value) {
 }
 
 async function shortenURL() {
-    isLoading = true;
     if (!longURL.value) {
         alert("Please enter URL");
         return;
@@ -93,6 +100,7 @@ async function shortenURL() {
     const apiUrl = 'https://api.tinyurl.com/create';
 
     try {
+        cssLoader.style.display = "flex";
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -109,9 +117,13 @@ async function shortenURL() {
         console.log(data);
 
         if (response.ok) {
-            isLoading = false;
-            document.getElementById('shortenedURL').innerHTML = `<a id="newTinyUrl" href="${data.data.tiny_url}">${data.data.tiny_url}</a>`;
+            document.getElementById('shortenedURL').innerHTML = `
+                <a id="newTinyUrl" target="_blank" href="${data.data.tiny_url}">${data.data.tiny_url}
+                </a>`;
+
             urlActions.classList.remove('hidden');
+            copyIcon.style.display = "block";
+            cssLoader.style.display = "none";
 
             Toastify({
                 text: `URL successfully shortened: ${data.data.tiny_url}`,
@@ -125,11 +137,12 @@ async function shortenURL() {
                 },
             }).showToast();
         } else {
-            isLoading = false;
             document.getElementById('shortenedURL').innerHTML = `<p class="text-red">Error: ${data.errors}</p>`;
             if (!urlActions.classList.contains('hidden')) {
                 urlActions.classList.add('hidden');
             };
+
+            cssLoader.style.display = "none";
 
             Toastify({
                 text: `Error: ${data.errors}`,
@@ -221,12 +234,6 @@ function showClearIcon(input, icon) {
     } else {
         icon.style.display = 'none';
     };
-}
-
-if (isLoading) {
-    cssLoader.style.display = "flex";
-} else {
-    cssLoader.style.display = "none";
 }
 
 qrText.addEventListener("input", () => showClearIcon(qrText, clearTextIcon));

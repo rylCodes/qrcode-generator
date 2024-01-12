@@ -24,7 +24,8 @@
                     <div class="input-section">
                         <div class="input-text-bar">
                             <input type="text" id="qr-text" placeholder="Enter text or URL">
-                            <span class="material-icons close-icon for-text" onclick="handleClearTextInput()">close</span>
+                            <span class="material-icons close-icon for-text"
+                                onclick="handleClearTextInput()">close</span>
                         </div>
                         <button class="qr-button" onclick="displayTextQrCode()">Generate QR Code</button>
                     </div>
@@ -36,19 +37,30 @@
                         <div class="input-url-container">
                             <div class="input-text-bar url">
                                 <input class="input-url" type="text" id="input-url" placeholder="Enter URL">
-                                <span class="material-icons close-icon for-url" onclick="handleClearUrlInput()">close</span>
+                                <span class="material-icons close-icon for-url"
+                                    onclick="handleClearUrlInput()">close</span>
                             </div>
                             <div class="input-text-bar alias">
-                                <input class="input-alias" type="text" id="input-alias" placeholder="Enter Alias (optional)">
-                                <span class="material-icons close-icon for-alias" onclick="handleClearAliasInput()">close</span>
+                                <input class="input-alias" type="text" id="input-alias"
+                                    placeholder="Enter Alias (optional)">
+                                <span class="material-icons close-icon for-alias"
+                                    onclick="handleClearAliasInput()">close</span>
                             </div>
                         </div>
                         <button class="url-button" onclick="shortenURL()">Shorten URL</button>
                     </div>
-                    <p id="shortenedURL"></p>
-                    <div class="url-actions hidden">
-                        <button class="copyUrl" onclick="copyToClipboard()">Copy URL</button>
-                        <button class="tinyUrlQr" onclick="displayTinyurlQrCode()">Generate QR Code</button>
+                    <div>
+                        <div id="shortenedURL"></div>
+                        <div class="url-actions hidden">
+                            <button class="copy-url" onclick="copyToClipboard()">
+                                <span class="material-icons copy-icon for-url">content_copy</span>
+                                <span>Copy</span>
+                            </button>
+                            <button class="tinyUrlQr" onclick="displayTinyurlQrCode()">
+                                <span class="material-icons qr-icon">qr_code</span>
+                                <span>QR</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,18 +70,32 @@
                 <div class="qr-container">
                     <div id="qr-code" class="qr-code"></div>
                 </div>
-                <p class="qr-text"></p>
-                <a id="download-link" download="qrcode.jpg" style="display: none;">
+                <div class="qr-text"></div>
+                <a id="download-link" style="display: none;">
                     Download QR Code
                 </a>
             </div>
         </div>
 
-        <small class="tip">Note: Long URLs might cause scanning issues. Use the URL shortener before generating the QR code.</small>
+        <small class="tip">Note: Long URLs might cause scanning issues. Use the URL shortener before generating the QR
+            code.</small>
 
         <!-- CSS Loader -->
         <div class="css-loader">
-            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="lds-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     </div>
 

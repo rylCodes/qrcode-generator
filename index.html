@@ -26,18 +26,24 @@
                             <input type="text" id="qr-text" placeholder="Enter text or URL">
                             <span class="material-icons close-icon for-text" onclick="handleClearTextInput()">close</span>
                         </div>
-                        <button onclick="displayTextQrCode()">Generate QR Code</button>
+                        <button class="qr-button" onclick="displayTextQrCode()">Generate QR Code</button>
                     </div>
                 </div>
 
                 <div class="url-shortener-div">
                     <h1>URL Shortener</h1>
                     <div class="input-section">
-                        <div class="input-text-bar">
-                            <input type="text" id="inputURL" placeholder="Enter URL">
-                            <span class="material-icons close-icon for-url" onclick="handleClearUrlInput()">close</span>
+                        <div class="input-url-container">
+                            <div class="input-text-bar url">
+                                <input class="input-url" type="text" id="input-url" placeholder="Enter URL">
+                                <span class="material-icons close-icon for-url" onclick="handleClearUrlInput()">close</span>
+                            </div>
+                            <div class="input-text-bar alias">
+                                <input class="input-alias" type="text" id="input-alias" placeholder="Enter Alias (optional)">
+                                <span class="material-icons close-icon for-alias" onclick="handleClearAliasInput()">close</span>
+                            </div>
                         </div>
-                        <button onclick="shortenURL()">Shorten URL</button>
+                        <button class="url-button" onclick="shortenURL()">Shorten URL</button>
                     </div>
                     <p id="shortenedURL"></p>
                     <div class="url-actions hidden">
@@ -60,6 +66,11 @@
         </div>
 
         <small class="tip">Note: Long URLs might cause scanning issues. Use the URL shortener before generating the QR code.</small>
+
+        <!-- CSS Loader -->
+        <div class="css-loader">
+            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
     </div>
 
     <footer class="footer">
@@ -73,7 +84,6 @@
             <span>Version: <strong>1.0.0</strong></span>
         </div>
     </footer>
-
 
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

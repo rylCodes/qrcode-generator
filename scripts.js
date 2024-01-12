@@ -1,12 +1,20 @@
+// Input elements
 const qrText = document.getElementById("qr-text");
-const longURL = document.getElementById('inputURL');
+const longURL = document.getElementById('input-url');
+const aliasText = document.getElementById('input-alias');
+
 const noQRtoShow = document.querySelector('.temp-div');
 const urlActions = document.querySelector('.url-actions');
 const closeIcon = document.querySelector('span.close-icon');
 const clearTextIcon = document.querySelector('span.close-icon.for-text');
 const clearUrlIcon = document.querySelector('span.close-icon.for-url');
+const clearAliasIcon = document.querySelector('span.close-icon.for-alias');
+const cssLoader = document.querySelector(".css-loader");
 
-function generateQR(value) {
+let isLoading = false;
+
+async function generateQR(value) {
+    isLoading = true;
     if (!value) {
         alert("Please enter text or URL to generate QR code.");
         return;
@@ -15,7 +23,7 @@ function generateQR(value) {
     const qrCodeDiv = document.getElementById("qr-code");
     qrCodeDiv.innerHTML = "";
 
-    const qr = new QRCode(qrCodeDiv, {
+    const qr = await new QRCode(qrCodeDiv, {
         text: value,
         width: 300,
         height: 300
@@ -25,10 +33,12 @@ function generateQR(value) {
     if (!qr) {
         noQRtoShow.classList.remove('hidden');
         alert("Failed to generate QR code.");
+        isLoading = false;
         return;
     } else {
         noQRtoShow.classList.add('hidden');
-    }
+        isLoading = false;
+    };
     
     // Convert QR code to image and create download link
     const qrCodeImage = qrCodeDiv.querySelector('img');
@@ -72,6 +82,7 @@ function generateQR(value) {
 }
 
 async function shortenURL() {
+    isLoading = true;
     if (!longURL.value) {
         alert("Please enter URL");
         return;
@@ -82,49 +93,56 @@ async function shortenURL() {
     const apiUrl = 'https://api.tinyurl.com/create';
 
     try {
-    const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ url: longURL.value })
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-        document.getElementById('shortenedURL').innerHTML = `<a id="newTinyUrl" href="${data.data.tiny_url}">${data.data.tiny_url}</a>`;
-        urlActions.classList.remove('hidden');
-
-        Toastify({
-            text: `URL successfully shortened: ${data.data.tiny_url}`,
-            duration: 5000,
-            newWindow: true,
-            close: true,
-            gravity: "top", // 'top' or 'bottom'
-            position: 'center', // 'left', 'right', 'center'
-            style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)", // Use your preferred color
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
             },
-        }).showToast();
-    } else {
-        document.getElementById('shortenedURL').innerHTML = `<p class="text-red">Error: ${data.errors}</p>`;
-        if (!urlActions.classList.contains('hidden')) {
-            urlActions.classList.add('hidden');
+            body: JSON.stringify({
+                url: longURL.value,
+                alias: aliasText.value? aliasText.value.trim() : null,
+            })
+        });
+
+        const data = await response.json();
+        console.log(data);
+
+        if (response.ok) {
+            isLoading = false;
+            document.getElementById('shortenedURL').innerHTML = `<a id="newTinyUrl" href="${data.data.tiny_url}">${data.data.tiny_url}</a>`;
+            urlActions.classList.remove('hidden');
+
+            Toastify({
+                text: `URL successfully shortened: ${data.data.tiny_url}`,
+                duration: 5000,
+                newWindow: true,
+                close: true,
+                gravity: "top", // 'top' or 'bottom'
+                position: 'center', // 'left', 'right', 'center'
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)", // Use your preferred color
+                },
+            }).showToast();
+        } else {
+            isLoading = false;
+            document.getElementById('shortenedURL').innerHTML = `<p class="text-red">Error: ${data.errors}</p>`;
+            if (!urlActions.classList.contains('hidden')) {
+                urlActions.classList.add('hidden');
+            };
+
+            Toastify({
+                text: `Error: ${data.errors}`,
+                duration: 5000,
+                newWindow: true,
+                close: true,
+                gravity: "top", // 'top' or 'bottom'
+                position: 'center', // 'left', 'right', 'center'
+                style: {
+                    background: "linear-gradient(to right, #e53935, #b71c1c)", // Use your preferred color
+                },
+            }).showToast();
         };
-
-        Toastify({
-            text: `Error: ${data.errors}`,
-            duration: 5000,
-            newWindow: true,
-            close: true,
-            gravity: "top", // 'top' or 'bottom'
-            position: 'center', // 'left', 'right', 'center'
-            style: {
-                background: "linear-gradient(to right, #e53935, #b71c1c)", // Use your preferred color
-            },
-        }).showToast();
-    };
     } catch (error) {
         document.getElementById('shortenedURL').innerHTML = `Error: ${error.message}`;
     };
@@ -193,21 +211,24 @@ function handleClearUrlInput() {
     removeInputValue(longURL, clearUrlIcon);
 }
 
-function showClearTextIcon() {
-    if (qrText.value.trim() !== "") {
-        clearTextIcon.style.display = 'block';
+function handleClearAliasInput() {
+    removeInputValue(aliasText, clearAliasIcon);
+}
+
+function showClearIcon(input, icon) {
+    if (input.value.trim() !== "") {
+        icon.style.display = 'block';
     } else {
-        clearTextIcon.style.display = 'none';
+        icon.style.display = 'none';
     };
 }
 
-function showClearUrlIcon() {
-    if (longURL.value.trim() !== "") {
-        clearUrlIcon.style.display = 'block';
-    } else {
-        clearUrlIcon.style.display = 'none';
-    };
+if (isLoading) {
+    cssLoader.style.display = "flex";
+} else {
+    cssLoader.style.display = "none";
 }
 
-qrText.addEventListener("input", showClearTextIcon);
-longURL.addEventListener("input", showClearUrlIcon);
+qrText.addEventListener("input", () => showClearIcon(qrText, clearTextIcon));
+longURL.addEventListener("input", () => showClearIcon(longURL, clearUrlIcon));
+aliasText.addEventListener("input", () => showClearIcon(aliasText, clearAliasIcon));

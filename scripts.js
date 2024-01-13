@@ -1,17 +1,17 @@
+const qrTextContainer = document.querySelector(".qr-text");
+const noQRtoShow = document.querySelector('.temp-div');
+const urlActions = document.querySelector('.url-actions');
+const closeIcon = document.querySelector('span.clear-icon');
+const clearTextIcon = document.querySelector('span.clear-icon.for-text');
+const clearUrlIcon = document.querySelector('span.clear-icon.for-url');
+const clearAliasIcon = document.querySelector('span.clear-icon.for-alias');
+const copyIcon = document.querySelector('span.copy-icon');
+const cssLoader = document.querySelector(".css-loader");
+
 // Input elements
 const qrText = document.getElementById("qr-text");
 const longURL = document.getElementById('input-url');
 const aliasText = document.getElementById('input-alias');
-
-const qrTextContainer = document.querySelector(".qr-text");
-const noQRtoShow = document.querySelector('.temp-div');
-const urlActions = document.querySelector('.url-actions');
-const closeIcon = document.querySelector('span.close-icon');
-const clearTextIcon = document.querySelector('span.close-icon.for-text');
-const clearUrlIcon = document.querySelector('span.close-icon.for-url');
-const clearAliasIcon = document.querySelector('span.close-icon.for-alias');
-const copyIcon = document.querySelector('span.copy-icon');
-const cssLoader = document.querySelector(".css-loader");
 
 async function generateQR(value) {
     cssLoader.style.display = "flex";
@@ -163,6 +163,7 @@ async function shortenURL() {
             }).showToast();
         };
     } catch (error) {
+        cssLoader.style.display = "none";
         document.getElementById('shortenedURL').innerHTML = `Error: ${error.message}`;
     };
 }

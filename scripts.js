@@ -57,26 +57,25 @@ async function generateQR(value) {
                 // Fill canvas with a background color (optional)
                 ctx.fillStyle = '#ffffff'; // White background color
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
                 // Draw QR code onto the canvas with padding
-                ctx.drawImage(qrCodeImage, padding, padding);         
+                ctx.drawImage(qrCodeImage, padding, padding); 
+
+                // Convert the canvas to a data URL in JPEG format and set as href for download link
+                downloadLink.href = canvas.toDataURL('image/jpeg');
+
+                // Download as PNG
+                if (value.includes('http')) {
+                    const splitValue = value.split('/');
+                    downloadLink.setAttribute('download', `${splitValue.pop()}.jpg`);
+                } else {
+                    downloadLink.setAttribute('download', `${value}.jpg`);
+                };
+
+                downloadLink.classList.remove('hidden');       
             };
         }
 
         await handleQrCodeImage();
-
-        // Convert the canvas to a data URL in JPEG format and set as href for download link
-        downloadLink.href = canvas.toDataURL('image/jpeg');
-
-        // Download as PNG
-        if (value.includes('http')) {
-            const splitValue = value.split('/');
-            downloadLink.setAttribute('download', `${splitValue.pop()}.png`);
-        } else {
-            downloadLink.setAttribute('download', `${value}.jpg`);
-        };
-
-        downloadLink.classList.remove('hidden');
 
         if (qrTextContainer) {
             qrTextContainer.textContent = value;

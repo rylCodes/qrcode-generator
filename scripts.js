@@ -45,7 +45,7 @@ async function generateQR(value) {
     const qrCodeImage = qrCodeDiv.querySelector('img');
     const downloadLink = document.getElementById('download-link');
 
-    qrCodeImage.onload = function() {
+    qrCodeImage.onload = () => {
         const canvas = document.createElement('canvas');
         const padding = 20; // Adjust padding value as needed
         canvas.width = qrCodeImage.naturalWidth + 2 * padding;
@@ -67,16 +67,17 @@ async function generateQR(value) {
             const splitValue = value.split('/');
             downloadLink.setAttribute('download', `${splitValue.pop()}.png`);
         } else {
-            downloadLink.setAttribute('download', `${value}.png`);
+            downloadLink.setAttribute('download', `${value}.jpg`);
         };
+
         downloadLink.style.display = 'block';
 
         if (qrTextContainer) {
             qrTextContainer.textContent = value;
-        }
+        };
 
         Toastify({
-            text: `QR Code image successfully generated`,
+            text: `Your QR Code successfully generated`,
             duration: 5000,
             newWindow: true,
             close: true,

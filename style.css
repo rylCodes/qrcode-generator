@@ -155,20 +155,21 @@ input[type="text"] {
 
 .qr-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  /* justify-content: center; */
   align-items: center;
-  margin-bottom: 20px;
+  width: 100%;
 }
 
-.qr-code {
-  text-align: center;
+.qr-text {
+  margin-top: 20px;
 }
 
 #download-link {
-  display: block;
+  font-weight: bold;
+  width: 90%;
   text-align: center;
   margin-top: 30px;
-  text-decoration: none;
   color: #3498db;
   border: 1px solid #3498db;
   padding: 8px 20px;

@@ -69,14 +69,14 @@ async function generateQR(value) {
                     downloadLink.setAttribute('download', `${splitValue.pop()}.jpg`);
                 } else {
                     downloadLink.setAttribute('download', `${value}.jpg`);
-                };
-
-                downloadLink.classList.remove('hidden');       
+                };       
             };
         }
 
         await handleQrCodeImage();
-
+        
+        downloadLink.classList.remove('hidden');
+        
         if (qrTextContainer) {
             qrTextContainer.textContent = value;
         };

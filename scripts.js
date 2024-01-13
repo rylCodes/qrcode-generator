@@ -1,4 +1,5 @@
 const qrTextContainer = document.querySelector(".qr-text");
+const qrContainer = document.querySelector(".qr-container");
 const noQRtoShow = document.querySelector('.temp-div');
 const urlActions = document.querySelector('.url-actions');
 const closeIcon = document.querySelector('span.clear-icon');
@@ -33,11 +34,13 @@ async function generateQR(value) {
     // Handle QR code generation error
     if (!qr) {
         noQRtoShow.classList.remove('hidden');
+        qrContainer.classList.add('hidden')
         cssLoader.style.display = "none";
         alert("Failed to generate QR code.");
         return;
     } else {
         noQRtoShow.classList.add('hidden');
+        qrContainer.classList.remove('hidden')
         cssLoader.style.display = "none";
     };
     
@@ -74,8 +77,6 @@ async function generateQR(value) {
         }
 
         await handleQrCodeImage();
-        
-        downloadLink.classList.remove('hidden');
         
         if (qrTextContainer) {
             qrTextContainer.textContent = value;

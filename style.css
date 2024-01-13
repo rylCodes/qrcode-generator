@@ -166,6 +166,7 @@ input[type="text"] {
 }
 
 #download-link {
+  cursor: pointer;
   font-weight: bold;
   width: 90%;
   text-align: center;

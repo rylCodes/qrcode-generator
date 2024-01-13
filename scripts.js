@@ -44,21 +44,27 @@ async function generateQR(value) {
     // Convert QR code to image and create download link
     const qrCodeImage = qrCodeDiv.querySelector('img');
     const downloadLink = document.getElementById('download-link');
+    const canvas = document.createElement('canvas');
 
-    qrCodeImage.onload = () => {
-        const canvas = document.createElement('canvas');
-        const padding = 20; // Adjust padding value as needed
-        canvas.width = qrCodeImage.naturalWidth + 2 * padding;
-        canvas.height = qrCodeImage.naturalHeight + 2 * padding;
-        const ctx = canvas.getContext('2d');
+    if (qrCodeImage) {
+        async function handleQrCodeImage() {
+            qrCodeImage.onload = () => {
+                const padding = 20; // Adjust padding value as needed
+                canvas.width = qrCodeImage.naturalWidth + 2 * padding;
+                canvas.height = qrCodeImage.naturalHeight + 2 * padding;
+                const ctx = canvas.getContext('2d');
+                
+                // Fill canvas with a background color (optional)
+                ctx.fillStyle = '#ffffff'; // White background color
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // Fill canvas with a background color (optional)
-        ctx.fillStyle = '#ffffff'; // White background color
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                // Draw QR code onto the canvas with padding
+                ctx.drawImage(qrCodeImage, padding, padding);         
+            };
+        }
 
-        // Draw QR code onto the canvas with padding
-        ctx.drawImage(qrCodeImage, padding, padding);
-        
+        await handleQrCodeImage();
+
         // Convert the canvas to a data URL in JPEG format and set as href for download link
         downloadLink.href = canvas.toDataURL('image/jpeg');
 
@@ -70,7 +76,7 @@ async function generateQR(value) {
             downloadLink.setAttribute('download', `${value}.jpg`);
         };
 
-        downloadLink.style.display = 'block';
+        downloadLink.classList.remove('hidden');
 
         if (qrTextContainer) {
             qrTextContainer.textContent = value;

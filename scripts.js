@@ -1,5 +1,5 @@
 const qrTextContainer = document.querySelector(".qr-text");
-const qrContainer = document.querySelector(".qr-container");
+const qrContainer = document.querySelector(".qr-container.hidden");
 const noQRtoShow = document.querySelector('.temp-div');
 const urlActions = document.querySelector('.url-actions');
 const closeIcon = document.querySelector('span.clear-icon');

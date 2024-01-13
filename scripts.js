@@ -51,32 +51,45 @@ async function generateQR(value) {
 
     if (qrCodeImage) {
         async function handleQrCodeImage() {
-            qrCodeImage.onload = () => {
-                const padding = 20; // Adjust padding value as needed
-                canvas.width = qrCodeImage.naturalWidth + 2 * padding;
-                canvas.height = qrCodeImage.naturalHeight + 2 * padding;
-                const ctx = canvas.getContext('2d');
-                
-                // Fill canvas with a background color (optional)
-                ctx.fillStyle = '#ffffff'; // White background color
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                // Draw QR code onto the canvas with padding
-                ctx.drawImage(qrCodeImage, padding, padding); 
+            return new Promise(resolve => {
+                qrCodeImage.onload = () => {
+                    const padding = 20; // Adjust padding value as needed
+                    canvas.width = qrCodeImage.naturalWidth + 2 * padding;
+                    canvas.height = qrCodeImage.naturalHeight + 2 * padding;
+                    const ctx = canvas.getContext('2d');
 
-                // Convert the canvas to a data URL in JPEG format and set as href for download link
-                downloadLink.href = canvas.toDataURL('image/jpeg');
+                    // Fill canvas with a background color (optional)
+                    ctx.fillStyle = '#ffffff'; // White background color
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                // Download as PNG
-                if (value.includes('http')) {
-                    const splitValue = value.split('/');
-                    downloadLink.setAttribute('download', `${splitValue.pop()}.jpg`);
-                } else {
-                    downloadLink.setAttribute('download', `${value}.jpg`);
-                };       
-            };
+                    // Draw QR code onto the canvas with padding
+                    ctx.drawImage(qrCodeImage, padding, padding);
+
+                    // Convert the canvas to a Blob in JPEG format
+                    canvas.toBlob(blob => {
+                        // Create an object URL for the Blob
+                        const blobURL = URL.createObjectURL(blob);
+
+                        // Set the object URL as href for the download link
+                        downloadLink.href = blobURL;
+
+                        // Set the download attribute for the link
+                        if (value.includes('http')) {
+                            const splitValue = value.split('/');
+                            downloadLink.setAttribute('download', `${splitValue.pop()}.jpg`);
+                        } else {
+                             downloadLink.setAttribute('download', `${value}.jpg`);
+                        }
+
+                        // Resolve the promise
+                        resolve(blobURL);
+                    }, 'image/jpeg');
+                };
+            });
         }
 
         await handleQrCodeImage();
+
         
         if (qrTextContainer) {
             qrTextContainer.textContent = value;

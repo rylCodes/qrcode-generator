@@ -176,6 +176,11 @@ span.qr-icon {
   cursor: pointer;
 }
 
+span.clear-icon {
+  color: #444;
+  font-weight: 600;
+}
+
 .qr-text {
   text-align: center;
   font-weight: bold;

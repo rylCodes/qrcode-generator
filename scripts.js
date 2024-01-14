@@ -190,7 +190,7 @@ function copyToClipboard() {
 
     // Alert the user or provide feedback (optional)
     Toastify({
-        text: `Copied to clipboard: ${shortenedURL.textContent}`,
+        text: `Copied to clipboard`,
         duration: 5000,
         newWindow: true,
         close: true,

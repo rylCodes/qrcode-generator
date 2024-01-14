@@ -2,34 +2,6 @@
 
 /* General styles */
 
-body {
-  display: flex;
-  flex-direction: column;
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  color: #042142;
-  min-height: 100vh;
-}
-
-header {
-  display: flex;
-  justify-content: flex-end;
-  column-gap: 20px;
-  background: linear-gradient(45deg, #0F81FF, #042142, #00B8FF); /* Gradient background */
-  color: #fff;
-  padding: 25px;
-}
-
-h1 {
-  text-align: center;
-}
-
-a {
-  text-decoration: none;
-  color: #fff;
-}
-
 button {
   font-weight: bold;
   width: fit-content;
@@ -57,24 +29,18 @@ button:hover {
   color: #d5d3d3;
 }
 
-.container {
-  position: relative;
-  margin: 0 80px;
-  background-color: #fff;
-}
-
 .inner-container {
   display: flex;
+  margin: auto 0;
   width: auto;
 }
 
 .inner-container-left,
 .inner-container-right {
+  background: white;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   width: 50%;
-  margin: 10px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -82,13 +48,6 @@ button:hover {
 
 .temp-div {
   margin: auto;
-}
-
-.url-actions {
-  display: flex;
-  column-gap: 5px;
-  margin-top: 10px;
-  margin-bottom: 15px;
 }
 
 .copy-url,
@@ -107,8 +66,9 @@ button:hover {
 }
 
 #newTinyUrl {
+  font-size: 18px;
   color: #00B8FF;
-  padding: 8px;
+  padding: 6px;
   border-radius: 5px;
   border: 1px solid #ccc;
   display: block;
@@ -123,11 +83,11 @@ button:hover {
 .input-section {
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
 }
 
 .input-text-bar {
   display: flex;
+  align-items: center;
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -155,7 +115,6 @@ input[type="text"] {
 .qr-container {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   width: 100%;
 }
@@ -184,37 +143,26 @@ input[type="text"] {
 
 /* CSS for the tip small tag */
 .tip {
-  color: #333;
+  color: #444;
   display: block;
   background-color: #f9f9f9;
   border-left: 4px solid #00B8FF;
-  /* Change color as desired */
   padding: 8px;
-  margin-top: 10px;
+  margin: auto;
   font-size: 0.9em;
   font-style: italic;
 }
 
 /* Footer */
 footer {
-  margin-top: auto;
-  background: linear-gradient(45deg, #0F81FF, #042142, #00B8FF); /* Gradient background */
   color: #fff;
   font-size: 12px;
-}
-
-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin: 20px 80px;
 }
 
 .footer-items {
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
-  margin-bottom: 10px;
 }
 
 .text-red {
@@ -222,12 +170,7 @@ nav {
 }
 
 span.clear-icon,
-span.copy-icon {
-  font-size: 16px;
-  cursor: pointer;
-  display: none;
-}
-
+span.copy-icon,
 span.qr-icon {
   font-size: 16px;
   cursor: pointer;
@@ -236,50 +179,11 @@ span.qr-icon {
 .qr-text {
   text-align: center;
   font-weight: bold;
-  color: black;
-}
-
-.hidden {
-  display: none;
 }
 
 /* Responsive styles */
 
-@media (max-width: 1200px) {
-
-  .container {
-    margin: 20px 40px;
-  }
-
-  h1 {
-    font-size: 26px;
-  }
-
-  nav {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 20px 40px;
-  }
-}
-
 @media (max-width: 768px) {
-  body {
-    font-size: 14px
-  }
-
-  header {
-    column-gap: 10px;
-  }
-
-  .container {
-    margin: 10px 20px;
-  }
-
-  h1 {
-    font-size: 20px;
-  }
-
   .header-item {
     font-size: 13px;
   }
@@ -293,7 +197,6 @@ span.qr-icon {
     width: auto;
   }
 
-  nav,
   footer {
     font-size: 11px;
   }
@@ -301,10 +204,11 @@ span.qr-icon {
 
 /* CSS Loader Style */
 .css-loader {
+  background-color: rgba(0, 0, 0, 0.1);
   display: none;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 0%;
   left: 0%;
   width: 100%;

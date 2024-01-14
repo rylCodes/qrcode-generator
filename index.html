@@ -5,54 +5,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QRLink</title>
+    <link rel="stylesheet" href="css/tailwind.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.ico">
 </head>
 
-<body>
-    <header>
-        <a class="header-item" href="https://qrlink-maker.darylandres.com/">QRLink</a>
-        <a class="header-item" href="https://bndesc-finder.darylandres.com/">BNDesc</a>
+<body class="flex flex-col bg-gradient-to-tr from-[#0F81FF] via-slate-950 to-[#00B8FF] text-slate-950 min-h-[100vh] text-small md:text-base">
+    <header class="bg-slate-950 flex justify-between items-center px-6 py-4">
+        <!-- App Logo -->
+        <a href="https://qrlink-maker.darylandres.com/">
+            <div class="flex space-x-1 items-center">
+                <img class="w-[26px] md:w-7 h-auto" src="img/qrlink-logo.png" alt="qrlink-logo">
+                <div class="text-white font-bold text-[28px] md:text-[30px] pb-[1px]">QRLink</div>
+            </div>
+        </a>
+        <!-- Navigation -->
+        <nav class="flex space-x-3">
+            <a class="header-item" href="https://qrlink-maker.darylandres.com/">Home</a>
+            <a class="header-item" href="">About</a>
+            <a class="header-item" href="https://bndesc-finder.darylandres.com/">BNDesc</a>    
+        </nav>
     </header>
 
-    <div class="container">
-        <div class="inner-container">
-            <div class="inner-container-left">
-                <div class="qr-generator-div">
-                    <h1>QR Code Generator</h1>
-                    <div class="input-section">
-                        <div class="input-text-bar">
-                            <input type="text" id="qr-text" placeholder="Enter text or URL">
-                            <span class="material-icons clear-icon for-text"
-                                onclick="handleClearTextInput()">clear</span>
-                        </div>
-                        <button class="qr-button" onclick="displayTextQrCode()">Generate QR Code</button>
-                    </div>
-                </div>
-
-                <div class="url-shortener-div">
-                    <h1>URL Shortener</h1>
-                    <div class="input-section">
-                        <div class="input-url-container">
-                            <div class="input-text-bar url">
-                                <input class="input-url" type="text" id="input-url" placeholder="Enter URL">
-                                <span class="material-icons clear-icon for-url"
-                                    onclick="handleClearUrlInput()">clear</span>
+    <div class="relative container mx-auto my-4 h-full">
+        <div class="flex-container flex flex-col w-full h-full px-2 space-y-4">
+            <div class="inner-container space-x-0 space-y-4 w-full h-full md:space-x-4 md:space-y-0">
+                <div class="inner-container-left">
+                    <div class="qr-generator-div">
+                        <h1 class="text-center text-2xl font-bold p-2">QR Code Generator</h1>
+                        <div class="input-section">
+                            <div class="input-text-bar">
+                                <input type="text" id="qr-text" placeholder="Enter text or URL">
+                                <span class="material-icons clear-icon for-text hidden"
+                                    onclick="handleClearTextInput()" style="display: none;">clear</span>
                             </div>
-                            <div class="input-text-bar alias">
-                                <input class="input-alias" type="text" id="input-alias"
-                                    placeholder="Enter Alias (optional)">
-                                <span class="material-icons clear-icon for-alias"
-                                    onclick="handleClearAliasInput()">clear</span>
-                            </div>
+                            <button class="qr-button" onclick="displayTextQrCode()">Generate QR Code</button>
                         </div>
-                        <button class="url-button" onclick="shortenURL()">Shorten URL</button>
                     </div>
-                    <div>
-                        <div id="shortenedURL"></div>
-                        <div class="url-actions hidden">
+    
+                    <div class="url-shortener-div">
+                        <h1 class="text-center text-2xl font-bold p-2">URL Shortener</h1>
+                        <div class="input-section">
+                            <div class="input-url-container">
+                                <div class="input-text-bar url">
+                                    <input class="input-url" type="text" id="input-url" placeholder="Enter URL">
+                                    <span class="material-icons clear-icon for-url"
+                                        onclick="handleClearUrlInput()" style="display: none;">clear</span>
+                                </div>
+                                <div class="input-text-bar alias">
+                                    <input class="input-alias" type="text" id="input-alias"
+                                        placeholder="Enter Alias (optional)">
+                                    <span class="material-icons clear-icon for-alias hidden"
+                                        onclick="handleClearAliasInput()" style="display: none;">clear</span>
+                                </div>
+                            </div>
+                            <button class="url-button" onclick="shortenURL()">Shorten URL</button>
+                        </div>
+                    </div>
+                    <div class="shortened-url-div mt-4 hidden">
+                        <div class="shortenedURL" id="shortenedURL"></div>
+                        <div class="flex space-x-2 mt-2">
                             <button class="copy-url" onclick="copyToClipboard()">
                                 <span class="material-icons copy-icon for-url">content_copy</span>
                                 <span>Copy</span>
@@ -64,22 +78,21 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="inner-container-right">
-                <p class="temp-div">No QR Code to show.</p>
-                <div class="qr-container">
-                    <div id="qr-code" class="qr-code"></div>
-                    <div class="qr-text"></div>
-                    <a class="hidden" id="download-link">
-                        Download QR Code
-                    </a>
+    
+                <div class="inner-container-right">
+                    <p class="temp-div">No QR Code to show.</p>
+                    <div class="qr-container">
+                        <div id="qr-code" class="qr-code"></div>
+                        <div class="qr-text"></div>
+                        <a class="hidden" id="download-link">
+                            Download QR Code
+                        </a>
+                    </div>
                 </div>
             </div>
+            <small class="tip w-full">Note: Long URLs might cause scanning issues. Use the URL shortener before generating the QR
+                code.</small>
         </div>
-
-        <small class="tip">Note: Long URLs might cause scanning issues. Use the URL shortener before generating the QR
-            code.</small>
 
         <!-- CSS Loader -->
         <div class="css-loader">
@@ -100,13 +113,14 @@
         </div>
     </div>
 
-    <footer class="footer">
-        <nav>
+    <footer class="footer bg-slate-950 mt-auto">
+        <nav class="flex flex-col px-10 py-6 space-y-2 w-fit">
+            <a class="nav-item" href="https://qrlink-maker.darylandres.com/">Home</a>
+            <a class="nav-item" href="">About</a>
             <a class="nav-item" href="https://bndesc-finder.darylandres.com/">BNDesc</a>
-            <a class="nav-item" href="https://qrlink-maker.darylandres.com/">QRLink</a>
         </nav>
 
-        <div class="footer-items">
+        <div class="footer-items my-2">
             <span><strong>Copyright &copy; 2024 QRLink.</strong> All rights reserved</span>
             <span>Version: <strong>1.0.0</strong></span>
         </div>

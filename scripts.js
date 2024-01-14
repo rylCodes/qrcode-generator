@@ -1,6 +1,7 @@
 const qrTextContainer = document.querySelector(".qr-text");
 const noQRtoShow = document.querySelector('.temp-div');
-const urlActions = document.querySelector('.url-actions');
+const shortenedURL = document.querySelector('.shortenedURL');
+const shortenedUrlDiv = document.querySelector('.shortened-url-div')
 const closeIcon = document.querySelector('span.clear-icon');
 const clearTextIcon = document.querySelector('span.clear-icon.for-text');
 const clearUrlIcon = document.querySelector('span.clear-icon.for-url');
@@ -124,16 +125,16 @@ async function shortenURL() {
         console.log(data);
 
         if (response.ok) {
-            document.getElementById('shortenedURL').innerHTML = `
+            shortenedUrlDiv.classList.remove('hidden');
+            shortenedURL.innerHTML = `
                 <a id="newTinyUrl" target="_blank" href="${data.data.tiny_url}">${data.data.tiny_url}
                 </a>`;
 
-            urlActions.classList.remove('hidden');
             copyIcon.style.display = "block";
             cssLoader.style.display = "none";
 
             Toastify({
-                text: `URL successfully shortened: ${data.data.tiny_url}`,
+                text: `Your URL successfully shortened`,
                 duration: 5000,
                 newWindow: true,
                 close: true,
@@ -144,9 +145,9 @@ async function shortenURL() {
                 },
             }).showToast();
         } else {
-            document.getElementById('shortenedURL').innerHTML = `<p class="text-red">Error: ${data.errors}</p>`;
-            if (!urlActions.classList.contains('hidden')) {
-                urlActions.classList.add('hidden');
+            shortenedURL.innerHTML = `<p class="text-red">Error: ${data.errors}</p>`;
+            if (!shortenedUrlDiv.classList.contains('hidden')) {
+                shortenedUrlDiv.classList.add('hidden');
             };
 
             cssLoader.style.display = "none";
@@ -159,22 +160,21 @@ async function shortenURL() {
                 gravity: "top", // 'top' or 'bottom'
                 position: 'center', // 'left', 'right', 'center'
                 style: {
-                    background: "linear-gradient(to right, #e53935, #b71c1c)", // Use your preferred color
+                    background: "linear-gradient(to right, #FF1744, #FF8C00)", // Use your preferred color
                 },
             }).showToast();
         };
     } catch (error) {
         cssLoader.style.display = "none";
-        document.getElementById('shortenedURL').innerHTML = `Error: ${error.message}`;
+        shortenedURL.innerHTML = `Error: ${error.message}`;
     };
 }
 
 function copyToClipboard() {
-    const copyText = document.getElementById("shortenedURL");
     const textArea = document.createElement("textarea");
 
     // Set the text content to be copied to the clipboard
-    textArea.value = copyText.textContent;
+    textArea.value = shortenedURL.textContent;
 
     // Append the textarea element to the document
     document.body.appendChild(textArea);
@@ -190,7 +190,7 @@ function copyToClipboard() {
 
     // Alert the user or provide feedback (optional)
     Toastify({
-        text: `Copied to clipboard: ${copyText.textContent}`,
+        text: `Copied to clipboard: ${shortenedURL.textContent}`,
         duration: 5000,
         newWindow: true,
         close: true,

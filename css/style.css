@@ -208,7 +208,6 @@ span.clear-icon {
 
 /* CSS Loader Style */
 .css-loader {
-  background-color: rgba(0, 0, 0, 0.3);
   display: none;
   position: absolute;
   top: 0%;

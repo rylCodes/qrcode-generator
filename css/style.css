@@ -162,7 +162,6 @@ footer {
 .footer-items {
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
 }
 
 .text-red {
@@ -209,10 +208,8 @@ span.clear-icon {
 
 /* CSS Loader Style */
 .css-loader {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.3);
   display: none;
-  justify-content: center;
-  align-items: center;
   position: absolute;
   top: 0%;
   left: 0%;

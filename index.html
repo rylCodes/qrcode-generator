@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QRLink</title>
-    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/themes/nano.min.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="css/tailwind.css">
@@ -13,7 +13,8 @@
     <link rel="icon" href="favicon.ico">
 </head>
 
-<body class="relative flex flex-col bg-gradient-to-tr from-[#0F81FF] via-slate-950 to-[#00B8FF] text-slate-950 min-h-[100vh] text-small md:text-base">
+<body
+    class="relative flex flex-col bg-gradient-to-tr from-[#0F81FF] via-slate-950 to-[#00B8FF] text-slate-950 min-h-[100vh] text-small md:text-base">
     <header class="bg-slate-950">
         <div class="flex justify-between items-center py-4 px-2 mx-auto w-full max-w-7xl">
             <!-- App Logo -->
@@ -27,7 +28,7 @@
             <nav class="flex space-x-3">
                 <a class="header-item" href="https://qrlink-maker.darylandres.com/">Home</a>
                 <a class="header-item" href="">About</a>
-                <a class="header-item" href="https://bndesc-finder.darylandres.com/">BNDesc</a>    
+                <a class="header-item" href="https://bndesc-finder.darylandres.com/">BNDesc</a>
             </nav>
         </div>
     </header>
@@ -41,21 +42,21 @@
                         <div class="input-section">
                             <div class="input-text-bar">
                                 <input type="text" id="qr-text" placeholder="Enter text or URL">
-                                <span class="material-icons clear-icon for-text hidden"
-                                    onclick="handleClearTextInput()" style="display: none;">clear</span>
+                                <span class="material-icons clear-icon for-text hidden" onclick="handleClearTextInput()"
+                                    style="display: none;">clear</span>
                             </div>
                             <button class="qr-button" onclick="displayTextQrCode()">Generate QR Code</button>
                         </div>
                     </div>
-    
+
                     <div class="url-shortener-div">
                         <h1 class="text-center text-2xl font-bold p-2">URL Shortener</h1>
                         <div class="input-section">
                             <div class="input-url-container">
                                 <div class="input-text-bar url">
                                     <input class="input-url" type="text" id="input-url" placeholder="Enter URL">
-                                    <span class="material-icons clear-icon for-url"
-                                        onclick="handleClearUrlInput()" style="display: none;">clear</span>
+                                    <span class="material-icons clear-icon for-url" onclick="handleClearUrlInput()"
+                                        style="display: none;">clear</span>
                                 </div>
                                 <div class="input-text-bar alias">
                                     <input class="input-alias" type="text" id="input-alias"
@@ -70,7 +71,7 @@
                     <div class="shortened-url-div mt-4 hidden">
                         <div class="shortenedURL" id="shortenedURL"></div>
                         <div class="flex space-x-2 mt-2">
-                            <button class="copy-url bg-green-600 hover:bg-green-500" onclick="copyToClipboard()">
+                            <button class="copy-url bg-green-600 hover:bg-green-700" onclick="copyToClipboard()">
                                 <span class="material-icons copy-icon for-url">content_copy</span>
                                 <span>Copy</span>
                             </button>
@@ -81,7 +82,7 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="inner-container-right">
                     <div class="temp-div flex flex-col items-center w-full gap-4">
                         <img class="" src="img/qrlink-logo.png" alt="qrlink-logo">
@@ -90,20 +91,45 @@
                     <div class="qr-container">
                         <div id="qr-code" class="qr-code"></div>
                         <div class="qr-text"></div>
-                        <div class="hidden qrcode-actions gap-1 w-full mt-4">
-                            <button class="copy-qrcode bg-green-600 hover:bg-green-500 flex gap-1 justify-center items-center w-1/2">
-                                <span class="material-icons copy-icon for-url">content_copy</span>
-                                <span>Copy</span>
-                            </button>
-                            <button class="download-qrcode flex gap-1 justify-center items-center w-1/2">
-                                <span class="material-icons copy-icon for-url">download</span>
-                                <span>Download</span>
-                            </button>
+                        <div class="hidden qrcode-actions flex-col w-full gap-1 md:flex-row mt-8">
+                            <button class="w-full md:w-1/2" onclick="toggleCustomizeQr()">Customize QRCode</button>
+                            <div class="flex gap-1 w-full md:w-1/2">
+                                <button
+                                    class="copy-qrcode bg-green-600 hover:bg-green-700 flex gap-1 justify-center items-center w-1/2">
+                                    <span class="material-icons copy-icon for-url">content_copy</span>
+                                    <span>Copy</span>
+                                </button>
+                                <button class="download-qrcode flex gap-1 justify-center items-center w-1/2">
+                                    <span class="material-icons copy-icon for-url">download</span>
+                                    <span>Download</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <small class="tip w-full">Note: Long URLs might cause scanning issues. Use the URL shortener before generating the QR
+
+            <!-- Customize QR Settings -->
+            <div id="customize-qr" class="hidden w-full bg-white rounded-md p-4">
+                <div>
+                    <label for="dotOptionsColor">Dots:</label>
+                    <div id="dotOptionsColor"></div>
+                </div>
+                <div>
+                    <label for="squareCorderOptionsColor">Square Corners:</label>
+                    <div id="squareCorderOptionsColor"></div>
+                </div>
+                <div>
+                    <label for="imageUploadInput">Logo:</label>
+                    <div class="flex gap-1 items-center">
+                        <input class="imageUploadInput" name="imageUploadInput" onchange="readFile(this)"
+                            id="imageUploadInput" type="file" accept="image/*">
+                        <img id="uploadedImage" width="100" height="100" class="hidden" src="#" alt="">
+                    </div>
+                </div>
+            </div>
+            <small class="tip w-full">Note: Long URLs might cause scanning issues. Use the URL shortener before
+                generating the QR
                 code.</small>
         </div>
 
@@ -133,7 +159,7 @@
                 <a class="nav-item" href="">About</a>
                 <a class="nav-item" href="https://bndesc-finder.darylandres.com/">BNDesc</a>
             </nav>
-    
+
             <div class="footer-items mb-2">
                 <span><strong>Copyright &copy; 2024 QRLink.</strong> All rights reserved</span>
                 <span>Version: <strong>1.0.0</strong></span>
@@ -141,7 +167,8 @@
         </div>
     </footer>
 
-    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/pickr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="scripts.js"></script>
 </body>

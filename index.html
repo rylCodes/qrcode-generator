@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QRLink</title>
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="css/tailwind.css">
@@ -69,7 +70,7 @@
                     <div class="shortened-url-div mt-4 hidden">
                         <div class="shortenedURL" id="shortenedURL"></div>
                         <div class="flex space-x-2 mt-2">
-                            <button class="copy-url" onclick="copyToClipboard()">
+                            <button class="copy-url bg-green-600 hover:bg-green-500" onclick="copyToClipboard()">
                                 <span class="material-icons copy-icon for-url">content_copy</span>
                                 <span>Copy</span>
                             </button>
@@ -82,13 +83,23 @@
                 </div>
     
                 <div class="inner-container-right">
-                    <p class="temp-div">No QR Code to show.</p>
+                    <div class="temp-div flex flex-col items-center w-full gap-4">
+                        <img class="" src="img/qrlink-logo.png" alt="qrlink-logo">
+                        <p>No QR Code to show.</p>
+                    </div>
                     <div class="qr-container">
                         <div id="qr-code" class="qr-code"></div>
                         <div class="qr-text"></div>
-                        <a class="hidden" id="download-link">
-                            Download QR Code
-                        </a>
+                        <div class="hidden qrcode-actions gap-1 w-full mt-4">
+                            <button class="copy-qrcode bg-green-600 hover:bg-green-500 flex gap-1 justify-center items-center w-1/2">
+                                <span class="material-icons copy-icon for-url">content_copy</span>
+                                <span>Copy</span>
+                            </button>
+                            <button class="download-qrcode flex gap-1 justify-center items-center w-1/2">
+                                <span class="material-icons copy-icon for-url">download</span>
+                                <span>Download</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

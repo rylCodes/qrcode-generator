@@ -57,14 +57,6 @@ button:hover {
   column-gap: 5px;
 }
 
-.copy-url {
-  background-color: green;
-}
-
-.copy-url:hover {
-  background-color: darkgreen;
-}
-
 #newTinyUrl {
   font-size: 18px;
   color: #00B8FF;

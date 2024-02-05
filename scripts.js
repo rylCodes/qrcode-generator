@@ -25,10 +25,16 @@ async function generateQR(value) {
     const qrCodeDiv = document.getElementById("qr-code");
     qrCodeDiv.innerHTML = "";
 
-    const qr = await new QRCode(qrCodeDiv, {
-        text: value,
+    const qr = await new QRCodeStyling({
         width: 300,
-        height: 300
+        height: 300,
+        type: 'svg',
+        data: value,
+        image: 'img/qrlink-logo.png',
+        imageOptions: {
+            crossOrigin: "anonymous",
+            margin: 8,
+        }
     });
 
     // Handle QR code generation error
@@ -42,59 +48,51 @@ async function generateQR(value) {
         cssLoader.style.display = "none";
     };
     
+    qr.append(qrCodeDiv);
+
+    if (qrTextContainer) {
+        qrTextContainer.textContent = value;
+    };
+    
     // Convert QR code to image and create download link
     const qrCodeImage = qrCodeDiv.querySelector('img');
-    const downloadLink = document.getElementById('download-link');
-    const canvas = document.createElement('canvas');
+    const qrCodeActions = document.querySelector('.qrcode-actions');
+    const copyBtn = document.querySelector('.copy-qrcode');
+    const downloadBtn = document.querySelector('.download-qrcode');
 
-    if (qrCodeImage) {
-        async function handleQrCodeImage() {
-            qrCodeImage.onload = () => {
-                const padding = 20; // Adjust padding value as needed
-                canvas.width = qrCodeImage.naturalWidth + 2 * padding;
-                canvas.height = qrCodeImage.naturalHeight + 2 * padding;
-                const ctx = canvas.getContext('2d');
-                
-                // Fill canvas with a background color (optional)
-                ctx.fillStyle = '#ffffff'; // White background color
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                // Draw QR code onto the canvas with padding
-                ctx.drawImage(qrCodeImage, padding, padding); 
+    qrCodeActions.classList.remove('hidden'); 
+    qrCodeActions.classList.add('flex'); 
+    console.log(qrCodeImage);
 
-                // Convert the canvas to a data URL in JPEG format and set as href for download link
-                downloadLink.href = canvas.toDataURL('image/png');
+    if(copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            alert("Unfortunately, this feature isn't ready for use.")
+        });
+    }
 
-                // Add qr image name and download as PNG
-                if (value.includes('http')) {
-                    const splitValue = value.split('/');
-                    downloadLink.setAttribute('download', `${splitValue.pop()}.png`);
-                } else {
-                    downloadLink.setAttribute('download', `${value}.png`);
-                };
-
-                downloadLink.classList.remove('hidden');   
-                console.log(qrCodeImage);
+    if(downloadBtn) {
+        downloadBtn.addEventListener('click', () => {
+            if (value.includes('http')) {
+                const splitValue = value.split('/');
+                qr.download({ name: splitValue, extension: "png" });
+            } else {
+                qr.download({ name: value, extension: "png" });
             };
-        }
+        });
+    }
 
-        await handleQrCodeImage();
+    Toastify({
+        text: `Your QR Code successfully generated`,
+        duration: 5000,
+        newWindow: true,
+        close: true,
+        gravity: "top", // 'top' or 'bottom'
+        position: 'center', // 'left', 'right', 'center'
+        style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)", // Use your preferred color
+        },
+    }).showToast();
 
-        if (qrTextContainer) {
-            qrTextContainer.textContent = value;
-        };
-
-        Toastify({
-            text: `Your QR Code successfully generated`,
-            duration: 5000,
-            newWindow: true,
-            close: true,
-            gravity: "top", // 'top' or 'bottom'
-            position: 'center', // 'left', 'right', 'center'
-            style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)", // Use your preferred color
-            },
-        }).showToast();
-    };
 }
 
 async function shortenURL() {

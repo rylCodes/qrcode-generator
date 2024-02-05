@@ -92,7 +92,10 @@
                         <div id="qr-code" class="qr-code"></div>
                         <div class="qr-text"></div>
                         <div class="hidden qrcode-actions flex-col w-full gap-1 md:flex-row mt-8">
-                            <button class="w-full md:w-1/2" onclick="toggleCustomizeQr()">Customize QRCode</button>
+                            <button class="bg-gradient-to-tr from-[#0F81FF] via-slate-950 to-[#00B8FF] hover:opacity-90 w-full md:w-1/2"
+                                onclick="toggleCustomizeQr()">
+                                Customize QRCode
+                            </button>
                             <div class="flex gap-1 w-full md:w-1/2">
                                 <button
                                     class="copy-qrcode bg-green-600 hover:bg-green-700 flex gap-1 justify-center items-center w-1/2">
@@ -110,24 +113,85 @@
             </div>
 
             <!-- Customize QR Settings -->
-            <div id="customize-qr" class="hidden w-full bg-white rounded-md p-4">
-                <div>
-                    <label for="dotOptionsColor">Dots:</label>
-                    <div id="dotOptionsColor"></div>
+            <div id="customize-qr" class="hidden flex-col w-full gap-4 bg-white rounded-md px-2 py-4 md:flex-row">
+                <!-- left items -->
+                <div class="flex flex-col gap-2 px-4 w-full md:w-1/2">
+                    <div class="flex flex-col gap-2 px-4 py-2 border rounded-md">
+                        <h4 class="font-bold">IMAGE FILE</h4>
+                        <div class="flex justify-between items-center w-full">
+                            <input class="imageUploadInput" name="imageUploadInput" onchange="readFile(this)"
+                                id="imageUploadInput" type="file" accept="image/*">
+                            <span class="px-2 py-1 bg-red-500 text-white hover:bg-red-600 cursor-pointer"
+                                onclick="removeImage()">
+                                Cancel
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center w-full">
+                            <label for="imageSize">Margin:</label>
+                            <input class="bg-gray-200 px-2 py-1 w-40" type="number" value="0" onchange="">
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label for="squareCorderOptionsColor">Square Corners:</label>
-                    <div id="squareCorderOptionsColor"></div>
-                </div>
-                <div>
-                    <label for="imageUploadInput">Logo:</label>
-                    <div class="flex gap-1 items-center">
-                        <input class="imageUploadInput" name="imageUploadInput" onchange="readFile(this)"
-                            id="imageUploadInput" type="file" accept="image/*">
-                        <img id="uploadedImage" width="100" height="100" class="hidden" src="#" alt="">
+
+                <!-- right items -->
+                <div class="flex flex-col gap-2 px-4 w-full md:w-1/2">
+                    <div class="px-4 py-2 border rounded-md">
+                        <h4 class="font-bold">DOTS</h4>
+                        <div class="flex justify-between items-center w-full">
+                            <div class="flex gap-4 items-center w-1/2">
+                                <label for="dotOptionsColor">Color:</label>
+                                <div id="dotOptionsColor"></div>
+                            </div>
+                            <div class="flex gap-4 items-center">
+                                <label for="dotOptionsStyle">Style:</label>
+                                <select class="bg-gray-200 px-2 py-1 w-40" name="dotOptionsStyle" id="dotOptionsStyle" onchange="handleImageSize()">
+                                    <option selected value="square">Square</option>
+                                    <option value="dots">Dots</option>
+                                    <option value="rounded">Rounded</option>
+                                    <option value="extra-rounded">Extra rounded</option>
+                                    <option value="classy">Classy</option>
+                                    <option value="classy-rounded">Classy rounded</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2 border rounded-md">
+                        <h4 class="font-bold">CORNERS SQUARE</h4>
+                        <div class="flex justify-between items-center w-full">
+                            <div class="flex gap-4 items-center w-1/2">
+                                <label for="cornersSquareColorElem">Color:</label>
+                                <div id="cornersSquareColorElem"></div>
+                            </div>
+                            <div class="flex gap-4 items-center">
+                                <label for="squareCorderOptionsStyle">Style:</label>
+                                <select class="bg-gray-200 px-2 py-1 w-40" name="squareCorderOptionsStyle" id="squareCorderOptionsStyle" onchange="">
+                                    <option selected value="square">Square</option>
+                                    <option value="dots">Dots</option>
+                                    <option value="extra-rounded">Extra rounded</option>
+                                </select>
+                            </div>
+                        </div>                    
+                    </div>
+                    <div class="px-4 py-2 border rounded-md">
+                        <h4 class="font-bold">CORNERS DOT</h4>
+                        <div class="flex justify-between items-center w-full">
+                            <div class="flex gap-4 items-center w-1/2">
+                                <label for="cornersDotColorElem">Color:</label>
+                                <div id="cornersDotColorElem"></div>
+                            </div>
+                            <div class="flex gap-4 items-center">
+                                <label for="dotCorderOptionsStyle">Style:</label>
+                                <select class="bg-gray-200 px-2 py-1 w-40" name="dotCorderOptionsStyle" id="dotCorderOptionsStyle" onchange="">
+                                    <option selected value="square">Square</option>
+                                    <option value="dots">Dots</option>
+                                </select>
+                            </div> 
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Note: Long URLs might cause scanning issues. Use the URL shortener before generating the QR -->
             <small class="tip w-full">Note: Long URLs might cause scanning issues. Use the URL shortener before
                 generating the QR
                 code.</small>

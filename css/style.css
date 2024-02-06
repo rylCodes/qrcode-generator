@@ -6,16 +6,18 @@ button {
   font-weight: bold;
   width: fit-content;
   padding: 10px 15px;
-  background-color: #00B8FF;
+  background-color: #0F81FF;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-button:hover {
-  background-color: #0F81FF;
+button.download-qrcode {
+  background-color: none;
+  color: #0F81FF;
+  border: 2px solid #0F81FF;
 }
 
 .header-item {
@@ -59,17 +61,13 @@ button:hover {
 
 #newTinyUrl {
   font-size: 18px;
-  color: #00B8FF;
+  color: #0F81FF;
   padding: 6px;
   border-radius: 5px;
   border: 1px solid #ccc;
   display: block;
   font-weight: bold;
   text-align: center;
-}
-
-#newTinyUrl:hover {
-  color: #0F81FF
 }
 
 .input-section {
@@ -113,24 +111,6 @@ input[type="text"] {
 
 .qr-text {
   margin-top: 20px;
-}
-
-#download-link {
-  cursor: pointer;
-  font-weight: bold;
-  width: 90%;
-  text-align: center;
-  margin-top: 30px;
-  color: #00B8FF;
-  border: 1px solid #00B8FF;
-  padding: 8px 20px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-#download-link:hover {
-  background-color: #fff;
-  color: #0F81FF;
 }
 
 /* CSS for the tip small tag */

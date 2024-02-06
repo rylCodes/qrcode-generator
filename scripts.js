@@ -10,7 +10,12 @@ const copyIcon = document.querySelector('span.copy-icon');
 const cssLoader = document.querySelector(".css-loader");
 const customizeQr = document.querySelector('#customize-qr');
 const uploadedImage = document.querySelector('#uploadedImage');
-const imageMargin = document.querySelector('.imageMargin');
+const imageMargin = document.querySelector('#imageMargin');
+const dotOptionsStyle = document.querySelector('#dotOptionsStyle');
+const cornersSquareOptionsStyle = document.querySelector('#cornersSquareOptionsStyle');
+const cornersDotOptionsStyle = document.querySelector('#cornersDotOptionsStyle');
+const backgroundDots = document.querySelector('#backgroundDots');
+const backgroundDotsSpan = document.querySelector('.backgroundDots');
 
 // Input elements
 const qrText = document.getElementById("qr-text");
@@ -18,17 +23,42 @@ const longURL = document.getElementById('input-url');
 const aliasText = document.getElementById('input-alias');
 const imageUploadInput = document.getElementById('imageUploadInput');
 
+let backgroundColor;
 let dotsColor;
 let cornersSquareColor;
 let cornersDotColor;
 let isCustomizing = false;
-let qrLogo = '';
-let logoMargin = 0;
+let qrLogo;
+let logoMargin;
+let isBackgroundDotsHidden = true;
+let dotStyle;
+let cornersSquareStyle;
+let cornersDotStyle;
 
-let copyQrCode;
 let downloadQrCode;
 
-const dotOptionsColor = Pickr.create({
+const backgroundColorPickr = Pickr.create({
+    el: '#backgroundColor',
+    theme: 'nano', // You can choose a different theme
+    default: '#0000ff', // Default color
+    components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+        interaction: {
+            hex: true,
+            rgba: true,
+            hsla: true,
+            hsva: true,
+            cmyk: true,
+            input: true,
+            clear: true,
+            save: true,
+        },
+    },
+});
+
+const dotOptionsColorPickr = Pickr.create({
     el: '#dotOptionsColor',
     theme: 'nano', // You can choose a different theme
     default: '#0000ff', // Default color
@@ -91,7 +121,13 @@ const cornersDotColorPickr = Pickr.create({
     },
 });
 
-dotOptionsColor.on('change', (color, instance) => {
+backgroundColorPickr.on('change', (color, instance) => {
+    isCustomizing = true;
+    backgroundColor = color.toHEXA().toString();
+    displayTextQrCode();
+});
+
+dotOptionsColorPickr.on('change', (color, instance) => {
     isCustomizing = true;
     dotsColor = color.toHEXA().toString();
     displayTextQrCode();
@@ -121,25 +157,32 @@ async function generateQR(value) {
     qrCodeDiv.innerHTML = "";
 
     const qr = await new QRCodeStyling({
-        width: 350,
-        height: 350,
+        width: 300,
+        height: 300,
         margin: 4,
         type: 'svg',
         data: value,
         image: qrLogo? qrLogo: null,
+        backgroundOptions: {
+            color: backgroundColor? backgroundColor: '#fff',
+        },
         imageOptions: {
             crossOrigin: "anonymous",
-            margin: logoMargin > 0? logoMargin: 4,
-            imageSize: 0.2,
+            margin: logoMargin? logoMargin: 0,
+            imageSize: 0.4,
+            hideBackgroundDots: isBackgroundDotsHidden,
         },
         dotsOptions: {
             color: dotsColor? dotsColor: '#000',
+            type: dotStyle? dotStyle: 'square', 
         },
         cornersSquareOptions: {
             color: cornersSquareColor? cornersSquareColor: '#000',
+            type: cornersSquareStyle? cornersSquareStyle: null,
         },
         cornersDotOptions: {
             color: cornersDotColor? cornersDotColor: '#000',
+            type: cornersDotStyle? cornersDotStyle: null,
         }
     });
 
@@ -168,14 +211,10 @@ async function generateQR(value) {
 
     qrCodeActions.classList.remove('hidden'); 
     qrCodeActions.classList.add('flex'); 
-    console.log(qrCodeImage);
 
-    copyBtn.removeEventListener('click', copyQrCode);
-    downloadBtn.removeEventListener('click', downloadQrCode);
-
-    copyQrCode = () => {
-        alert("Unfortunately, this feature isn't ready for use.")
-    }
+    if (downloadQrCode) {
+        downloadBtn.removeEventListener('click', downloadQrCode);
+    };
 
     downloadQrCode = () => {
         downloadBtn.disabled = true;
@@ -192,7 +231,6 @@ async function generateQR(value) {
         }, 100);
     }
 
-    copyBtn.addEventListener('click', copyQrCode);
     downloadBtn.addEventListener('click', downloadQrCode);
 
     if (!isCustomizing) {
@@ -284,25 +322,37 @@ async function shortenURL() {
     };
 }
 
-function copyToClipboard() {
+function copyTextToClipboard(value) {
     const textArea = document.createElement("textarea");
-
-    // Set the text content to be copied to the clipboard
     textArea.value = shortenedURL.textContent;
-
-    // Append the textarea element to the document
     document.body.appendChild(textArea);
-
-    // Select the text content within the textarea
     textArea.select();
 
-    // Execute the copy command
     document.execCommand("copy");
-
-    // Remove the textarea element after copying
     document.body.removeChild(textArea);
 
-    // Alert the user or provide feedback (optional)
+    Toastify({
+        text: `Copied to clipboard`,
+        duration: 5000,
+        newWindow: true,
+        close: true,
+        gravity: "top", // 'top' or 'bottom'
+        position: 'center', // 'left', 'right', 'center'
+        style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+    }).showToast();
+}
+
+function copyImageToClipboard(value) {
+    const textArea = document.createElement("textarea");
+    textArea.value = value;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+
     Toastify({
         text: `Copied to clipboard`,
         duration: 5000,
@@ -386,15 +436,15 @@ function readFile(element) {
                 canvas.height = img.height;
 
                 // Draw the image on the canvas
-                ctx.fillStyle = 'white';
+                ctx.fillStyle = 'transparent';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(img, 0, 0);
 
-                // Convert the canvas content back to a data URL with reduced quality
-                const compressedDataURL = canvas.toDataURL('image/jpeg', 0.5); // Adjust quality as needed
+                const compressedDataURL = canvas.toDataURL('image/png', 0.5); // Adjust quality as needed
 
                 // uploadedImage.setAttribute('src', compressedDataURL);
                 // uploadedImage.classList.remove('hidden');
+                isCustomizing = true;
                 qrLogo = compressedDataURL;
                 displayTextQrCode();
             };
@@ -416,6 +466,30 @@ function removeImage() {
 function handleImageMargin() {
     isCustomizing = true;
     logoMargin = imageMargin.value;
+    displayTextQrCode();
+}
+
+function handleHideBackgroundDots() {
+    isCustomizing = true;
+    isBackgroundDotsHidden = backgroundDots.checked;
+    displayTextQrCode();
+}
+
+function handleDotStyle() {
+    isCustomizing = true;
+    dotStyle = dotOptionsStyle.value;
+    displayTextQrCode();
+}
+
+function handleCornersSquareStyle() {
+    isCustomizing = true;
+    cornersSquareStyle = cornersSquareOptionsStyle.value;
+    displayTextQrCode();
+}
+
+function handleCornersDotStyle() {
+    isCustomizing = true;
+    cornersDotStyle = cornersDotOptionsStyle.value;
     displayTextQrCode();
 }
 

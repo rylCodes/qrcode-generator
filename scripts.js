@@ -235,12 +235,15 @@ async function generateQR(value) {
     downloadQrCode = () => {
         downloadBtn.disabled = true;
 
-        if (value.includes('http')) {
+        if (value.includes('tinyurl')) {
             const splitValue = value.split('/');
-            qr.download({ name: splitValue, extension: "png" });
+            lastIndex = splitValue.length - 1;
+            qr.download({ name: splitValue[lastIndex], extension: "png" });
+        } else if (value.includes('http' || '/')) {
+            qr.download({ name: 'qrlink', extension: "png" });
         } else {
             qr.download({ name: value, extension: "png" });
-        }
+        };
 
         setTimeout(() => {
             downloadBtn.disabled = false;

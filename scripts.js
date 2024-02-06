@@ -411,7 +411,7 @@ function showClearIcon(input, icon) {
 }
 
 function toggleCustomizeQr() {
-    if (qrText.value.trim() === '') {        
+    if (qrText.value.trim() === '' && longURL.value.trim() === '' ) {        
         customizeQr.classList.add('hidden');
         customizeQr.classList.remove('flex');
         return;

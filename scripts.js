@@ -9,6 +9,8 @@ const clearAliasIcon = document.querySelector('span.clear-icon.for-alias');
 const copyIcon = document.querySelector('span.copy-icon');
 const cssLoader = document.querySelector(".css-loader");
 const customizeQr = document.querySelector('#customize-qr');
+const qrCodeActions = document.querySelector('.qrcode-actions');
+const downloadBtn = document.querySelector('.download-qrcode');
 const uploadedImage = document.querySelector('#uploadedImage');
 const imageMargin = document.querySelector('#imageMargin');
 const dotOptionsStyle = document.querySelector('#dotOptionsStyle');
@@ -37,89 +39,33 @@ let cornersDotStyle;
 
 let downloadQrCode;
 
-const backgroundColorPickr = Pickr.create({
-    el: '#backgroundColor',
-    theme: 'nano', // You can choose a different theme
-    default: '#0000ff', // Default color
-    components: {
-        preview: true,
-        opacity: true,
-        hue: true,
-        interaction: {
-            hex: true,
-            rgba: true,
-            hsla: true,
-            hsva: true,
-            cmyk: true,
-            input: true,
-            clear: true,
-            save: true,
+function pickrFunc(element) {
+    return Pickr.create({
+        el: element,
+        theme: 'nano', // You can choose a different theme
+        default: '#0F81FF', // Default color
+        components: {
+            preview: true,
+            opacity: true,
+            hue: true,
+            interaction: {
+                hex: true,
+                rgba: true,
+                hsla: true,
+                hsva: true,
+                cmyk: true,
+                input: true,
+                clear: true,
+                save: true,
+            },
         },
-    },
-});
+    });
+}
 
-const dotOptionsColorPickr = Pickr.create({
-    el: '#dotOptionsColor',
-    theme: 'nano', // You can choose a different theme
-    default: '#0000ff', // Default color
-    components: {
-        preview: true,
-        opacity: true,
-        hue: true,
-        interaction: {
-            hex: true,
-            rgba: true,
-            hsla: true,
-            hsva: true,
-            cmyk: true,
-            input: true,
-            clear: true,
-            save: true,
-        },
-    },
-});
-
-const cornersSquareColorPickr = Pickr.create({
-    el: '#cornersSquareColorElem',
-    theme: 'nano', // You can choose a different theme
-    default: '#0000ff', // Default color
-    components: {
-        preview: true,
-        opacity: true,
-        hue: true,
-        interaction: {
-            hex: true,
-            rgba: true,
-            hsla: true,
-            hsva: true,
-            cmyk: true,
-            input: true,
-            clear: true,
-            save: true,
-        },
-    },
-});
-
-const cornersDotColorPickr = Pickr.create({
-    el: '#cornersDotColorElem',
-    theme: 'nano', // You can choose a different theme
-    default: '#0000ff', // Default color
-    components: {
-        preview: true,
-        opacity: true,
-        hue: true,
-        interaction: {
-            hex: true,
-            rgba: true,
-            hsla: true,
-            hsva: true,
-            cmyk: true,
-            input: true,
-            clear: true,
-            save: true,
-        },
-    },
-});
+const backgroundColorPickr = pickrFunc('#backgroundColor');
+const dotOptionsColorPickr = pickrFunc('#dotOptionsColor');
+const cornersSquareColorPickr = pickrFunc('#cornersSquareColorElem');
+const cornersDotColorPickr = pickrFunc('#cornersDotColorElem');
 
 backgroundColorPickr.on('change', (color, instance) => {
     isCustomizing = true;
@@ -173,9 +119,9 @@ async function generateQR(value) {
     qrCodeDiv.innerHTML = "";
 
     const qr = await new QRCodeStyling({
-        width: 300,
-        height: 300,
-        margin: 4,
+        width: 320,
+        height: 320,
+        margin: 2,
         type: 'svg',
         data: value,
         image: qrLogo? qrLogo: null,
@@ -212,19 +158,13 @@ async function generateQR(value) {
         noQRtoShow.classList.add('hidden');
         cssLoader.style.display = "none";
     };
-    
+
     qr.append(qrCodeDiv);
 
     if (qrTextContainer) {
         qrTextContainer.textContent = value;
     };
     
-    // Convert QR code to image and create download link
-    const qrCodeImage = qrCodeDiv.querySelector('img');
-    const qrCodeActions = document.querySelector('.qrcode-actions');
-    const copyBtn = document.querySelector('.copy-qrcode');
-    const downloadBtn = document.querySelector('.download-qrcode');
-
     qrCodeActions.classList.remove('hidden'); 
     qrCodeActions.classList.add('flex'); 
 
@@ -234,6 +174,12 @@ async function generateQR(value) {
 
     downloadQrCode = () => {
         downloadBtn.disabled = true;
+
+        qr._options = {
+            ...qr._options,
+            width: 512,
+            height: 512,
+        }
 
         if (value.includes('tinyurl')) {
             const splitValue = value.split('/');
@@ -293,7 +239,6 @@ async function shortenURL() {
         });
 
         const data = await response.json();
-        console.log(data);
 
         if (response.ok) {
             shortenedUrlDiv.classList.remove('hidden');
@@ -363,28 +308,6 @@ function copyTextToClipboard(value) {
     }).showToast();
 }
 
-function copyImageToClipboard(value) {
-    const textArea = document.createElement("textarea");
-    textArea.value = value;
-    document.body.appendChild(textArea);
-    textArea.select();
-
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-
-    Toastify({
-        text: `Copied to clipboard`,
-        duration: 5000,
-        newWindow: true,
-        close: true,
-        gravity: "top", // 'top' or 'bottom'
-        position: 'center', // 'left', 'right', 'center'
-        style: {
-            background: "linear-gradient(to right, #00b09b, #96c93d)",
-        },
-    }).showToast();
-}
-
 function displayTextQrCode() {
     generateQR(qrText.value);
 }
@@ -395,7 +318,6 @@ function displayTinyurlQrCode() {
 
     if (newTinyUrl) {
         hrefValue = newTinyUrl.getAttribute('href');
-        console.log(hrefValue)
         if (hrefValue) {
             generateQR(hrefValue);
         };
@@ -459,12 +381,12 @@ function readFile(element) {
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(img, 0, 0);
 
-                const compressedDataURL = canvas.toDataURL('image/png', 0.5); // Adjust quality as needed
+                const dataURL = canvas.toDataURL('image/png'); // Adjust quality as needed
 
-                // uploadedImage.setAttribute('src', compressedDataURL);
+                // uploadedImage.setAttribute('src', dataURL);
                 // uploadedImage.classList.remove('hidden');
                 isCustomizing = true;
-                qrLogo = compressedDataURL;
+                qrLogo = dataURL;
                 if (qrText.value.trim() !== '') {
                     displayTextQrCode();
                 } else if (longURL.value.trim !== '') {

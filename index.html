@@ -45,7 +45,8 @@
                                 <span class="material-icons clear-icon for-text hidden" onclick="handleClearTextInput()"
                                     style="display: none;">clear</span>
                             </div>
-                            <button class="hover:opacity-90 qr-button" onclick="displayTextQrCode()">Generate QR</button>
+                            <button class="hover:opacity-90 qr-button" onclick="displayTextQrCode()">Generate
+                                QR</button>
                         </div>
                     </div>
 
@@ -85,19 +86,21 @@
 
                 <div class="inner-container-right">
                     <div class="temp-div flex flex-col items-center w-full gap-4">
-                        <img class="" src="img/qrlink-logo.png" alt="qrlink-logo">
+                        <img src="img/qrlink-logo.png" alt="qrlink-logo">
                         <p>QRLink</p>
                     </div>
                     <div class="qr-container">
                         <div id="qr-code" class="qr-code"></div>
                         <div class="qr-text"></div>
                         <div class="hidden qrcode-actions flex-col w-full gap-1 md:flex-row mt-8">
-                            <button class="transition-all duration-300 bg-gradient-to-tr from-[#0F81FF] via-slate-950 to-[#00B8FF] hover:opacity-90 w-full md:w-1/2"
+                            <button
+                                class="transition-all duration-300 bg-gradient-to-tr from-[#0F81FF] via-slate-950 to-[#00B8FF] hover:opacity-90 w-full md:w-1/2"
                                 onclick="toggleCustomizeQr()">
                                 Customize QR
                             </button>
                             <div class="w-full md:w-1/2">
-                                <button class="download-qrcode flex gap-1 justify-center items-center text-[#0F81FF] bg-white border-black w-full hover:opacity-90">
+                                <button
+                                    class="download-qrcode flex gap-1 justify-center items-center text-[#0F81FF] bg-white border-black w-full hover:opacity-90">
                                     <span class="material-icons copy-icon for-url">download</span>
                                     <span>Download</span>
                                 </button>
@@ -123,15 +126,14 @@
                         </div>
                         <div class="flex justify-between items-center w-full">
                             <label for="imageMargin">Margin:</label>
-                            <input class="bg-gray-200 px-2 py-1 w-40"
-                                name="imageMargin" id="imageMargin" type="number" value="0" min="0"
-                                onchange="handleImageMargin()">
+                            <input class="bg-gray-200 px-2 py-1 w-40" name="imageMargin" id="imageMargin" type="number"
+                                value="0" min="0" onchange="handleImageMargin()">
                         </div>
                         <div class="flex justify-between items-center w-full">
                             <label for="hideBackgroundDots">Hide background dots:</label>
                             <div class="w-40">
                                 <input type="checkbox" name="backgroundDots" id="backgroundDots" checked
-                                onchange="handleHideBackgroundDots()">
+                                    onchange="handleHideBackgroundDots()">
                             </div>
                         </div>
                     </div>
@@ -140,7 +142,7 @@
                         <h4 class="font-bold">BACKGROUND</h4>
                         <div class="flex gap-4 items-center w-1/2">
                             <label for="backgroundColor">Color:</label>
-                            <div id="backgroundColor"></div>
+                            <div class="border shadow-md" id="backgroundColor"></div>
                         </div>
                     </div>
                 </div>
@@ -156,8 +158,8 @@
                             </div>
                             <div class="flex gap-4 items-center">
                                 <label for="dotOptionsStyle">Style:</label>
-                                <select class="bg-gray-200 px-2 py-1 w-40"
-                                    name="dotOptionsStyle" id="dotOptionsStyle" onchange="handleDotStyle()">
+                                <select class="bg-gray-200 px-2 py-1 w-40" name="dotOptionsStyle" id="dotOptionsStyle"
+                                    onchange="handleDotStyle()">
                                     <option selected value="square">Square</option>
                                     <option value="dots">Dots</option>
                                     <option value="rounded">Rounded</option>
@@ -177,14 +179,14 @@
                             </div>
                             <div class="flex gap-4 items-center">
                                 <label for="cornersSquareOptionsStyle">Style:</label>
-                                <select class="bg-gray-200 px-2 py-1 w-40"
-                                    name="cornersSquareOptionsStyle" id="cornersSquareOptionsStyle" onchange="handleCornersSquareStyle()">
+                                <select class="bg-gray-200 px-2 py-1 w-40" name="cornersSquareOptionsStyle"
+                                    id="cornersSquareOptionsStyle" onchange="handleCornersSquareStyle()">
                                     <option selected value="square">Square</option>
                                     <option value="dot">Dot</option>
                                     <option value="extra-rounded">Extra rounded</option>
                                 </select>
                             </div>
-                        </div>                    
+                        </div>
                     </div>
                     <div class="px-4 py-2 border rounded-md shadow-md">
                         <h4 class="font-bold">CORNERS DOT</h4>
@@ -195,12 +197,12 @@
                             </div>
                             <div class="flex gap-4 items-center">
                                 <label for="cornersDotOptionsStyle">Style:</label>
-                                <select class="bg-gray-200 px-2 py-1 w-40"
-                                    name="cornersDotOptionsStyle" id="cornersDotOptionsStyle" onchange="handleCornersDotStyle()">
+                                <select class="bg-gray-200 px-2 py-1 w-40" name="cornersDotOptionsStyle"
+                                    id="cornersDotOptionsStyle" onchange="handleCornersDotStyle()">
                                     <option selected value="square">Square</option>
                                     <option value="dot">Dots</option>
                                 </select>
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -124,25 +124,41 @@ const cornersDotColorPickr = Pickr.create({
 backgroundColorPickr.on('change', (color, instance) => {
     isCustomizing = true;
     backgroundColor = color.toHEXA().toString();
-    displayTextQrCode();
+        if (qrText.value.trim() !== '') {
+        displayTextQrCode();
+    } else if (longURL.value.trim !== '') {
+        displayTinyurlQrCode();
+    }
 });
 
 dotOptionsColorPickr.on('change', (color, instance) => {
     isCustomizing = true;
     dotsColor = color.toHEXA().toString();
-    displayTextQrCode();
+        if (qrText.value.trim() !== '') {
+        displayTextQrCode();
+    } else if (longURL.value.trim !== '') {
+        displayTinyurlQrCode();
+    }
 });
 
 cornersSquareColorPickr.on('change', (color, instance) => {
     isCustomizing = true;
     cornersSquareColor = color.toHEXA().toString();
-    displayTextQrCode();
+        if (qrText.value.trim() !== '') {
+        displayTextQrCode();
+    } else if (longURL.value.trim !== '') {
+        displayTinyurlQrCode();
+    }
 });
 
 cornersDotColorPickr.on('change', (color, instance) => {
     isCustomizing = true;
     cornersDotColor = color.toHEXA().toString();
-    displayTextQrCode();
+        if (qrText.value.trim() !== '') {
+        displayTextQrCode();
+    } else if (longURL.value.trim !== '') {
+        displayTinyurlQrCode();
+    }
 });
 
 async function generateQR(value) {
@@ -446,7 +462,11 @@ function readFile(element) {
                 // uploadedImage.classList.remove('hidden');
                 isCustomizing = true;
                 qrLogo = compressedDataURL;
-                displayTextQrCode();
+                if (qrText.value.trim() !== '') {
+                    displayTextQrCode();
+                } else if (longURL.value.trim !== '') {
+                    displayTinyurlQrCode();
+                }
             };
 
             img.src = e.target.result;
@@ -460,37 +480,61 @@ function removeImage() {
     isCustomizing = true;
     qrLogo = '';
     imageUploadInput.value = '';
-    displayTextQrCode();
+    if (qrText.value.trim() !== '') {
+        displayTextQrCode();
+    } else if (longURL.value.trim !== '') {
+        displayTinyurlQrCode();
+    }
 }
 
 function handleImageMargin() {
     isCustomizing = true;
     logoMargin = imageMargin.value;
-    displayTextQrCode();
+    if (qrText.value.trim() !== '') {
+        displayTextQrCode();
+    } else if (longURL.value.trim !== '') {
+        displayTinyurlQrCode();
+    }
 }
 
 function handleHideBackgroundDots() {
     isCustomizing = true;
     isBackgroundDotsHidden = backgroundDots.checked;
-    displayTextQrCode();
+    if (qrText.value.trim() !== '') {
+        displayTextQrCode();
+    } else if (longURL.value.trim !== '') {
+        displayTinyurlQrCode();
+    }
 }
 
 function handleDotStyle() {
     isCustomizing = true;
     dotStyle = dotOptionsStyle.value;
-    displayTextQrCode();
+    if (qrText.value.trim() !== '') {
+        displayTextQrCode();
+    } else if (longURL.value.trim !== '') {
+        displayTinyurlQrCode();
+    }
 }
 
 function handleCornersSquareStyle() {
     isCustomizing = true;
     cornersSquareStyle = cornersSquareOptionsStyle.value;
-    displayTextQrCode();
+    if (qrText.value.trim() !== '') {
+        displayTextQrCode();
+    } else if (longURL.value.trim !== '') {
+        displayTinyurlQrCode();
+    }
 }
 
 function handleCornersDotStyle() {
     isCustomizing = true;
     cornersDotStyle = cornersDotOptionsStyle.value;
-    displayTextQrCode();
+    if (qrText.value.trim() !== '') {
+        displayTextQrCode();
+    } else if (longURL.value.trim !== '') {
+        displayTinyurlQrCode();
+    }
 }
 
 qrText.addEventListener("input", () => showClearIcon(qrText, clearTextIcon));

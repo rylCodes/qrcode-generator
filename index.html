@@ -1,257 +1,603 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QRLink</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/themes/nano.min.css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="css/tailwind.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="favicon.ico">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/themes/nano.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <link rel="stylesheet" href="css/tailwind.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/feather-icons"></script>
+  </head>
 
-<body
-    class="relative flex flex-col bg-gradient-to-tr from-[#0F81FF] via-slate-950 to-[#00B8FF] text-slate-950 min-h-[100vh] text-small md:text-base">
-    <header class="bg-slate-950">
-        <div class="flex justify-between items-center py-4 px-2 mx-auto w-full max-w-7xl">
-            <!-- App Logo -->
-            <a href="https://qrlink-maker.darylandres.com/">
-                <div class="flex space-x-1 items-center">
-                    <img class="w-[26px] md:w-7 h-auto" src="img/qrlink-logo.png" alt="qrlink-logo">
-                    <div class="text-white font-bold text-[28px] md:text-[30px]">QRLink</div>
-                </div>
-            </a>
-            <!-- Navigation -->
-            <nav class="flex space-x-3">
-                <a class="header-item" href="https://qrlink-maker.darylandres.com/">Home</a>
-                <a class="header-item" href="">About</a>
-                <!-- <a class="header-item" href="https://bndesc-finder.darylandres.com/">BNDesc</a> -->
-            </nav>
+  <body
+    class="relative flex flex-col bg-gradient-to-tr from-[#0F81FF] via-slate-950 to-[#00B8FF] text-slate-950 min-h-[100vh] text-small md:text-base"
+  >
+    <header class="bg-gray-950 text-gray-50 shadow-md">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <!-- App Logo -->
+          <a href="https://qrlink-maker.darylandres.com/">
+            <div class="flex space-x-1 items-center">
+              <img
+                class="w-[26px] md:w-7 h-auto"
+                src="img/qrlink-logo.png"
+                alt="qrlink-logo"
+              />
+              <div class="text-slate-50 font-bold text-[28px] md:text-[30px]">
+                QRLink
+              </div>
+            </div>
+          </a>
+          <nav class="hidden md:flex space-x-6">
+            <a href="#" class="hover:text-blue-600 transition-colors">Home</a>
+            <a href="#" class="hover:text-blue-600 transition-colors"
+              >Features</a
+            >
+            <a href="#" class="hover:text-blue-600 transition-colors"
+              >Pricing</a
+            >
+            <a href="#" class="hover:text-blue-600 transition-colors"
+              >Contact</a
+            >
+          </nav>
+          <div class="flex items-center space-x-4">
+            <a href="#" class="hover:text-blue-600 transition-colors">Log in</a>
+            <a
+              href="#"
+              class="bg-blue-600 text-slate-50 px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+              >Sign up</a
+            >
+          </div>
         </div>
+      </div>
     </header>
 
     <div class="relative container max-w-7xl w-full mx-auto my-4 h-full">
-        <div class="flex-container flex flex-col w-full h-full px-2 space-y-4">
-            <div class="inner-container space-x-0 space-y-4 w-full h-full md:space-x-4 md:space-y-0">
-                <div class="inner-container-left">
-                    <div class="qr-generator-div">
-                        <h1 class="text-center text-2xl font-bold p-2">QR Code Generator</h1>
-                        <div class="input-section">
-                            <div class="input-text-bar">
-                                <input type="text" id="qr-text" placeholder="Enter text or URL">
-                                <span class="material-icons clear-icon for-text hidden" onclick="handleClearTextInput()"
-                                    style="display: none;">clear</span>
-                            </div>
-                            <button class="hover:opacity-90 qr-button" onclick="displayTextQrCode()">Generate
-                                QR</button>
-                        </div>
-                    </div>
-
-                    <div class="url-shortener-div">
-                        <h1 class="text-center text-2xl font-bold p-2">URL Shortener</h1>
-                        <div class="input-section">
-                            <div class="input-url-container">
-                                <div class="input-text-bar url">
-                                    <input class="input-url" type="text" id="input-url" placeholder="Enter URL">
-                                    <span class="material-icons clear-icon for-url" onclick="handleClearUrlInput()"
-                                        style="display: none;">clear</span>
-                                </div>
-                                <div class="input-text-bar alias">
-                                    <input class="input-alias" type="text" id="input-alias"
-                                        placeholder="Enter Alias (optional)">
-                                    <span class="material-icons clear-icon for-alias hidden"
-                                        onclick="handleClearAliasInput()" style="display: none;">clear</span>
-                                </div>
-                            </div>
-                            <button class="hover:opacity-90 url-button" onclick="shortenURL()">Shorten URL</button>
-                        </div>
-                    </div>
-                    <div class="shortened-url-div mt-4 hidden">
-                        <div class="shortenedURL" id="shortenedURL"></div>
-                        <div class="flex space-x-2 mt-2">
-                            <button class="hover:opacity-90 copy-url bg-green-600" onclick="copyTextToClipboard()">
-                                <span class="material-icons copy-icon for-url">content_copy</span>
-                                <span>Copy</span>
-                            </button>
-                            <button class="hover:opacity-90 tinyUrlQr" onclick="displayTinyurlQrCode()">
-                                <span class="material-icons qr-icon">qr_code</span>
-                                <span>QR</span>
-                            </button>
-                        </div>
-                    </div>
+      <div class="flex-container flex flex-col w-full h-full px-2 space-y-4">
+        <div
+          class="inner-container space-x-0 space-y-4 w-full h-full md:space-x-4 md:space-y-0"
+        >
+          <div class="inner-container-left">
+            <div class="qr-generator-div">
+              <h1 class="text-center text-2xl font-bold p-2">
+                QR Code Generator
+              </h1>
+              <div class="input-section">
+                <div class="input-text-bar">
+                  <input
+                    type="text"
+                    id="qr-text"
+                    placeholder="Enter text or URL"
+                  />
+                  <span
+                    class="material-icons clear-icon for-text hidden"
+                    onclick="handleClearTextInput()"
+                    style="display: none"
+                    >clear</span
+                  >
                 </div>
-
-                <div class="inner-container-right">
-                    <div class="temp-div flex flex-col items-center w-full gap-4">
-                        <img src="img/qrlink-logo.png" alt="qrlink-logo">
-                        <p>QRLink</p>
-                    </div>
-                    <div class="qr-container">
-                        <div id="qr-code" class="qr-code"></div>
-                        <div class="qr-text"></div>
-                        <div class="hidden qrcode-actions flex-col w-full gap-1 md:flex-row mt-8">
-                            <button
-                                class="transition-all duration-300 bg-gradient-to-tr from-[#0F81FF] via-slate-950 to-[#00B8FF] hover:opacity-90 w-full md:w-1/2"
-                                onclick="toggleCustomizeQr()">
-                                Customize QR
-                            </button>
-                            <div class="w-full md:w-1/2">
-                                <button
-                                    class="download-qrcode flex gap-1 justify-center items-center text-[#0F81FF] bg-white border-black w-full hover:opacity-90">
-                                    <span class="material-icons copy-icon for-url">download</span>
-                                    <span>Download</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <button
+                  class="hover:opacity-90 qr-button"
+                  onclick="displayTextQrCode()"
+                >
+                  Generate QR
+                </button>
+              </div>
             </div>
 
-            <!-- Customize QR Settings -->
-            <div id="customize-qr" class="hidden flex-col w-full gap-4 bg-white rounded-md px-2 py-4 md:flex-row">
-                <!-- left items -->
-                <div class="flex flex-col gap-2 px-4 w-full md:w-1/2">
-                    <div class="flex flex-col gap-2 px-4 py-2 border rounded-md shadow-md">
-                        <h4 class="font-bold">IMAGE FILE</h4>
-                        <div class="flex justify-between items-center w-full">
-                            <input class="imageUploadInput" name="imageUploadInput" onchange="readFile(this)"
-                                id="imageUploadInput" type="file" accept="image/*">
-                            <span class="px-2 py-1 bg-red-500 text-white hover:bg-red-600 cursor-pointer"
-                                onclick="removeImage()">
-                                Cancel
-                            </span>
-                        </div>
-                        <div class="flex justify-between items-center w-full">
-                            <label for="imageMargin">Margin:</label>
-                            <input class="bg-gray-200 px-2 py-1 w-40" name="imageMargin" id="imageMargin" type="number"
-                                value="0" min="0" onchange="handleImageMargin()">
-                        </div>
-                        <div class="flex justify-between items-center w-full">
-                            <label for="hideBackgroundDots">Hide background dots:</label>
-                            <div class="w-40">
-                                <input type="checkbox" name="backgroundDots" id="backgroundDots" checked
-                                    onchange="handleHideBackgroundDots()">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-2 px-4 py-2 border rounded-md shadow-md">
-                        <h4 class="font-bold">BACKGROUND</h4>
-                        <div class="flex gap-4 items-center w-1/2">
-                            <label for="backgroundColor">Color:</label>
-                            <div class="border shadow-md" id="backgroundColor"></div>
-                        </div>
-                    </div>
+            <div class="url-shortener-div">
+              <h1 class="text-center text-2xl font-bold p-2">URL Shortener</h1>
+              <div class="input-section">
+                <div class="input-url-container">
+                  <div class="input-text-bar url">
+                    <input
+                      class="input-url"
+                      type="text"
+                      id="input-url"
+                      placeholder="Enter URL"
+                    />
+                    <span
+                      class="material-icons clear-icon for-url"
+                      onclick="handleClearUrlInput()"
+                      style="display: none"
+                      >clear</span
+                    >
+                  </div>
+                  <div class="input-text-bar alias">
+                    <input
+                      class="input-alias"
+                      type="text"
+                      id="input-alias"
+                      placeholder="Enter Alias (optional)"
+                    />
+                    <span
+                      class="material-icons clear-icon for-alias hidden"
+                      onclick="handleClearAliasInput()"
+                      style="display: none"
+                      >clear</span
+                    >
+                  </div>
                 </div>
-
-                <!-- right items -->
-                <div class="flex flex-col gap-2 px-4 w-full md:w-1/2">
-                    <div class="px-4 py-2 border rounded-md shadow-md">
-                        <h4 class="font-bold">DOTS</h4>
-                        <div class="flex justify-between items-center w-full">
-                            <div class="flex gap-4 items-center w-1/2">
-                                <label for="dotOptionsColor">Color:</label>
-                                <div id="dotOptionsColor"></div>
-                            </div>
-                            <div class="flex gap-4 items-center">
-                                <label for="dotOptionsStyle">Style:</label>
-                                <select class="bg-gray-200 px-2 py-1 w-40" name="dotOptionsStyle" id="dotOptionsStyle"
-                                    onchange="handleDotStyle()">
-                                    <option selected value="square">Square</option>
-                                    <option value="dots">Dots</option>
-                                    <option value="rounded">Rounded</option>
-                                    <option value="extra-rounded">Extra rounded</option>
-                                    <option value="classy">Classy</option>
-                                    <option value="classy-rounded">Classy rounded</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-4 py-2 border rounded-md shadow-md">
-                        <h4 class="font-bold">CORNERS SQUARE</h4>
-                        <div class="flex justify-between items-center w-full">
-                            <div class="flex gap-4 items-center w-1/2">
-                                <label for="cornersSquareColorElem">Color:</label>
-                                <div id="cornersSquareColorElem"></div>
-                            </div>
-                            <div class="flex gap-4 items-center">
-                                <label for="cornersSquareOptionsStyle">Style:</label>
-                                <select class="bg-gray-200 px-2 py-1 w-40" name="cornersSquareOptionsStyle"
-                                    id="cornersSquareOptionsStyle" onchange="handleCornersSquareStyle()">
-                                    <option selected value="square">Square</option>
-                                    <option value="dot">Dot</option>
-                                    <option value="extra-rounded">Extra rounded</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-4 py-2 border rounded-md shadow-md">
-                        <h4 class="font-bold">CORNERS DOT</h4>
-                        <div class="flex justify-between items-center w-full">
-                            <div class="flex gap-4 items-center w-1/2">
-                                <label for="cornersDotColorElem">Color:</label>
-                                <div id="cornersDotColorElem"></div>
-                            </div>
-                            <div class="flex gap-4 items-center">
-                                <label for="cornersDotOptionsStyle">Style:</label>
-                                <select class="bg-gray-200 px-2 py-1 w-40" name="cornersDotOptionsStyle"
-                                    id="cornersDotOptionsStyle" onchange="handleCornersDotStyle()">
-                                    <option selected value="square">Square</option>
-                                    <option value="dot">Dots</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <button
+                  class="hover:opacity-90 url-button"
+                  onclick="shortenURL()"
+                >
+                  Shorten URL
+                </button>
+              </div>
             </div>
+            <div class="shortened-url-div mt-4 hidden">
+              <div class="shortenedURL" id="shortenedURL"></div>
+              <div class="flex space-x-2 mt-2">
+                <button
+                  class="hover:opacity-90 copy-url bg-green-600"
+                  onclick="copyTextToClipboard()"
+                >
+                  <span class="material-icons copy-icon for-url"
+                    >content_copy</span
+                  >
+                  <span>Copy</span>
+                </button>
+                <button
+                  class="hover:opacity-90 tinyUrlQr"
+                  onclick="displayTinyurlQrCode()"
+                >
+                  <span class="material-icons qr-icon">qr_code</span>
+                  <span>QR</span>
+                </button>
+              </div>
+            </div>
+          </div>
 
-            <!-- Note: Long URLs might cause scanning issues. Use the URL shortener before generating the QR -->
-            <small class="tip w-full">Note: Long URLs might cause scanning issues. Use the URL shortener before
-                generating the QR
-                code.</small>
+          <div class="inner-container-right">
+            <div class="temp-div flex flex-col items-center w-full gap-4">
+              <img src="img/qrlink-logo.png" alt="qrlink-logo" />
+              <p>QRLink</p>
+            </div>
+            <div class="qr-container">
+              <div id="qr-code" class="qr-code"></div>
+              <div class="qr-text"></div>
+              <div
+                class="hidden qrcode-actions flex-col w-full gap-1 md:flex-row mt-8"
+              >
+                <button
+                  class="transition-all duration-300 bg-gradient-to-tr from-[#0F81FF] via-slate-950 to-[#00B8FF] hover:opacity-90 w-full md:w-1/2"
+                  onclick="toggleCustomizeQr()"
+                >
+                  Customize QR
+                </button>
+                <div class="w-full md:w-1/2">
+                  <button
+                    class="download-qrcode flex gap-1 justify-center items-center text-[#0F81FF] bg-slate-50 border-black w-full hover:opacity-90"
+                  >
+                    <span class="material-icons copy-icon for-url"
+                      >download</span
+                    >
+                    <span>Download</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- CSS Loader -->
-        <div class="css-loader">
-            <div class="lds-spinner m-auto">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
+        <!-- Customize QR Settings -->
+        <div
+          id="customize-qr"
+          class="hidden flex-col w-full gap-4 bg-slate-50 rounded-md px-2 py-4 md:flex-row"
+        >
+          <!-- left items -->
+          <div class="flex flex-col gap-2 px-4 w-full md:w-1/2">
+            <div
+              class="flex flex-col gap-2 px-4 py-2 border rounded-md shadow-md"
+            >
+              <h4 class="font-bold">IMAGE FILE</h4>
+              <div class="flex justify-between items-center w-full">
+                <input
+                  class="imageUploadInput"
+                  name="imageUploadInput"
+                  onchange="readFile(this)"
+                  id="imageUploadInput"
+                  type="file"
+                  accept="image/*"
+                />
+                <span
+                  class="px-2 py-1 bg-red-500 text-slate-50 hover:bg-red-600 cursor-pointer"
+                  onclick="removeImage()"
+                >
+                  Cancel
+                </span>
+              </div>
+              <div class="flex justify-between items-center w-full">
+                <label for="imageMargin">Margin:</label>
+                <input
+                  class="bg-gray-200 px-2 py-1 w-40"
+                  name="imageMargin"
+                  id="imageMargin"
+                  type="number"
+                  value="0"
+                  min="0"
+                  onchange="handleImageMargin()"
+                />
+              </div>
+              <div class="flex justify-between items-center w-full">
+                <label for="hideBackgroundDots">Hide background dots:</label>
+                <div class="w-40">
+                  <input
+                    type="checkbox"
+                    name="backgroundDots"
+                    id="backgroundDots"
+                    checked
+                    onchange="handleHideBackgroundDots()"
+                  />
+                </div>
+              </div>
             </div>
+
+            <div
+              class="flex flex-col gap-2 px-4 py-2 border rounded-md shadow-md"
+            >
+              <h4 class="font-bold">BACKGROUND</h4>
+              <div class="flex gap-4 items-center w-1/2">
+                <label for="backgroundColor">Color:</label>
+                <div class="border shadow-md" id="backgroundColor"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- right items -->
+          <div class="flex flex-col gap-2 px-4 w-full md:w-1/2">
+            <div class="px-4 py-2 border rounded-md shadow-md">
+              <h4 class="font-bold">DOTS</h4>
+              <div class="flex justify-between items-center w-full">
+                <div class="flex gap-4 items-center w-1/2">
+                  <label for="dotOptionsColor">Color:</label>
+                  <div id="dotOptionsColor"></div>
+                </div>
+                <div class="flex gap-4 items-center">
+                  <label for="dotOptionsStyle">Style:</label>
+                  <select
+                    class="bg-gray-200 px-2 py-1 w-40"
+                    name="dotOptionsStyle"
+                    id="dotOptionsStyle"
+                    onchange="handleDotStyle()"
+                  >
+                    <option selected value="square">Square</option>
+                    <option value="dots">Dots</option>
+                    <option value="rounded">Rounded</option>
+                    <option value="extra-rounded">Extra rounded</option>
+                    <option value="classy">Classy</option>
+                    <option value="classy-rounded">Classy rounded</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="px-4 py-2 border rounded-md shadow-md">
+              <h4 class="font-bold">CORNERS SQUARE</h4>
+              <div class="flex justify-between items-center w-full">
+                <div class="flex gap-4 items-center w-1/2">
+                  <label for="cornersSquareColorElem">Color:</label>
+                  <div id="cornersSquareColorElem"></div>
+                </div>
+                <div class="flex gap-4 items-center">
+                  <label for="cornersSquareOptionsStyle">Style:</label>
+                  <select
+                    class="bg-gray-200 px-2 py-1 w-40"
+                    name="cornersSquareOptionsStyle"
+                    id="cornersSquareOptionsStyle"
+                    onchange="handleCornersSquareStyle()"
+                  >
+                    <option selected value="square">Square</option>
+                    <option value="dot">Dot</option>
+                    <option value="extra-rounded">Extra rounded</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="px-4 py-2 border rounded-md shadow-md">
+              <h4 class="font-bold">CORNERS DOT</h4>
+              <div class="flex justify-between items-center w-full">
+                <div class="flex gap-4 items-center w-1/2">
+                  <label for="cornersDotColorElem">Color:</label>
+                  <div id="cornersDotColorElem"></div>
+                </div>
+                <div class="flex gap-4 items-center">
+                  <label for="cornersDotOptionsStyle">Style:</label>
+                  <select
+                    class="bg-gray-200 px-2 py-1 w-40"
+                    name="cornersDotOptionsStyle"
+                    id="cornersDotOptionsStyle"
+                    onchange="handleCornersDotStyle()"
+                  >
+                    <option selected value="square">Square</option>
+                    <option value="dot">Dots</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Note: Long URLs might cause scanning issues. Use the URL shortener before generating the QR -->
+        <small class="tip w-full"
+          >Note: Long URLs might cause scanning issues. Use the URL shortener
+          before generating the QR code.</small
+        >
+
+        <div class="mt-12 p-6 bg-gray-50 rounded-lg relative overflow-hidden">
+          <!-- Coming Soon Ribbon -->
+          <div class="absolute -right-12 top-8 rotate-45 z-10">
+            <div
+              class="bg-blue-600 text-slate-50 py-1 px-12 text-sm font-medium shadow-lg"
+            >
+              Coming Soon
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 mb-4">
+            <h3 class="text-xl font-semibold">Pro Features</h3>
+            <!-- Clock Icon -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-blue-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+
+          <ul class="space-y-3 text-gray-700">
+            <li class="flex items-center gap-2">
+              <!-- Lock Icon -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-gray-400 flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+              <span class="opacity-75">Bulk QR code generation</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-gray-400 flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+              <span class="opacity-75"
+                >Advanced QR code customization (design templates)</span
+              >
+            </li>
+            <li class="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-gray-400 flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+              <span class="opacity-75">URL analytics and reporting</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-gray-400 flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+              <span class="opacity-75">API access for integrations</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-gray-400 flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+              <span class="opacity-75">Custom domain for shortened URLs</span>
+            </li>
+          </ul>
+
+          <div class="mt-6 flex flex-col sm:flex-row items-center gap-2">
+            <button
+              class="w-full sm:w-auto bg-gray-300 text-gray-600 px-6 py-2 rounded-md cursor-not-allowed"
+              disabled
+            >
+              Coming Soon
+            </button>
+            <button
+              class="w-full sm:w-auto bg-blue-600 text-slate-50 px-6 py-2 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Get Notified
+            </button>
+          </div>
+
+          <p class="mt-4 text-sm text-gray-500 text-center sm:text-left">
+            Be the first to know when Pro features launch! 🚀
+          </p>
+        </div>
+      </div>
+
+      <!-- CSS Loader -->
+      <div class="css-loader">
+        <div class="lds-spinner m-auto">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
     </div>
 
-    <footer class="bg-slate-950 mt-auto">
-        <div class="footer mx-auto w-full max-w-7xl px-2">
-            <nav class="flex flex-col px-10 py-6 space-y-2 w-fit">
-                <a class="nav-item" href="https://qrlink-maker.darylandres.com/">Home</a>
-                <a class="nav-item" href="">About</a>
-                <!-- <a class="nav-item" href="https://bndesc-finder.darylandres.com/">BNDesc</a> -->
-            </nav>
-
-            <div class="footer-items mb-2">
-                <span><strong>Copyright &copy; 2024 QRLink.</strong> All rights reserved</span>
-                <span>Version: <strong>2.0.2</strong></span>
+    <footer class="bg-gray-950 text-slate-50 mt-auto">
+      <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h4 class="text-lg font-semibold mb-4">About QRLink</h4>
+            <p class="text-sm text-gray-400">
+              QRLink is a powerful tool for creating QR codes and shortening
+              URLs. Perfect for marketers, educators, and businesses.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li>
+                <a href="#" class="hover:text-slate-50 transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-slate-50 transition-colors"
+                  >Features</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-slate-50 transition-colors"
+                  >Pricing</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-slate-50 transition-colors"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Legal</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li>
+                <a href="#" class="hover:text-slate-50 transition-colors"
+                  >Terms of Service</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-slate-50 transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-slate-50 transition-colors"
+                  >Cookie Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Connect</h4>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="text-gray-400 hover:text-slate-50 transition-colors"
+                ><i data-feather="facebook"></i
+              ></a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-slate-50 transition-colors"
+                ><i data-feather="twitter"></i
+              ></a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-slate-50 transition-colors"
+                ><i data-feather="linkedin"></i
+              ></a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-slate-50 transition-colors"
+                ><i data-feather="github"></i
+              ></a>
             </div>
+          </div>
         </div>
+        <div
+          class="mt-8 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-sm text-gray-400">
+            &copy; 2025 QRLink. All rights reserved.
+          </p>
+          <p class="text-sm text-gray-400 mt-2 md:mt-0">Version: 1.0.0</p>
+        </div>
+      </div>
     </footer>
 
-    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/pickr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="scripts.js"></script>
-</body>
-
+  </body>
 </html>
